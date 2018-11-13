@@ -1,0 +1,40 @@
+C:\Users\Andrew Rotert School\source\repos\PutterFitting\PutterFitting\bin\Debug\PutterFitting.exe.config
+C:\Users\Andrew Rotert School\source\repos\PutterFitting\PutterFitting\bin\Debug\PutterFitting.exe
+C:\Users\Andrew Rotert School\source\repos\PutterFitting\PutterFitting\bin\Debug\PutterFitting.pdb
+C:\Users\Andrew Rotert School\source\repos\PutterFitting\PutterFitting\obj\Debug\PutterFitting.csprojAssemblyReference.cache
+C:\Users\Andrew Rotert School\source\repos\PutterFitting\PutterFitting\obj\Debug\PutterFitting.Properties.Resources.resources
+C:\Users\Andrew Rotert School\source\repos\PutterFitting\PutterFitting\obj\Debug\PutterFitting.csproj.GenerateResource.cache
+C:\Users\Andrew Rotert School\source\repos\PutterFitting\PutterFitting\obj\Debug\PutterFitting.csproj.CoreCompileInputs.cache
+C:\Users\Andrew Rotert School\source\repos\PutterFitting\PutterFitting\obj\Debug\PutterFitting.exe
+C:\Users\Andrew Rotert School\source\repos\PutterFitting\PutterFitting\obj\Debug\PutterFitting.pdb
+C:\Users\Andrew Rotert School\source\repos\PutterFitting\PutterFitting\obj\Debug\PutterFitting.PutterFittingSoftware.resources
+C:\Users\Andrew Rotert School\Desktop\PutterFitting - Copy\PutterFitting\bin\Debug\PutterFitting.exe.config
+C:\Users\Andrew Rotert School\Desktop\PutterFitting - Copy\PutterFitting\bin\Debug\PutterFitting.exe
+C:\Users\Andrew Rotert School\Desktop\PutterFitting - Copy\PutterFitting\bin\Debug\PutterFitting.pdb
+C:\Users\Andrew Rotert School\Desktop\PutterFitting - Copy\PutterFitting\obj\Debug\PutterFitting.csprojAssemblyReference.cache
+C:\Users\Andrew Rotert School\Desktop\PutterFitting - Copy\PutterFitting\obj\Debug\PutterFitting.PutterFittingSoftware.resources
+C:\Users\Andrew Rotert School\Desktop\PutterFitting - Copy\PutterFitting\obj\Debug\PutterFitting.Properties.Resources.resources
+C:\Users\Andrew Rotert School\Desktop\PutterFitting - Copy\PutterFitting\obj\Debug\PutterFitting.csproj.GenerateResource.cache
+C:\Users\Andrew Rotert School\Desktop\PutterFitting - Copy\PutterFitting\obj\Debug\PutterFitting.csproj.CoreCompileInputs.cache
+C:\Users\Andrew Rotert School\Desktop\PutterFitting - Copy\PutterFitting\obj\Debug\PutterFitting.exe
+C:\Users\Andrew Rotert School\Desktop\PutterFitting - Copy\PutterFitting\obj\Debug\PutterFitting.pdb
+C:\Users\Andrew Rotert School\Desktop\PutterFitting - Windows Form\PutterFitting\obj\Debug\PutterFitting.csprojAssemblyReference.cache
+C:\Users\Andrew Rotert School\Desktop\PutterFitting - Windows Form\PutterFitting\obj\Debug\PutterFitting.Properties.Resources.resources
+C:\Users\Andrew Rotert School\Desktop\PutterFitting - Windows Form\PutterFitting\obj\Debug\PutterFitting.csproj.GenerateResource.cache
+C:\Users\Andrew Rotert School\Desktop\PutterFitting - Windows Form\PutterFitting\obj\Debug\PutterFitting.csproj.CoreCompileInputs.cache
+C:\Users\Andrew Rotert School\Desktop\PutterFitting - Windows Form\PutterFitting\obj\Debug\PutterFitting.exe
+C:\Users\Andrew Rotert School\Desktop\PutterFitting - Windows Form\PutterFitting\obj\Debug\PutterFitting.pdb
+C:\Users\Andrew Rotert School\Desktop\PutterFitting - Windows Form\PutterFitting\obj\Debug\PutterFitting.PutterFittingSoftware.resources
+C:\Users\Andrew Rotert School\Desktop\PutterFitting - Windows Form\PutterFitting\bin\Debug\PutterFitting.exe.config
+C:\Users\Andrew Rotert School\Desktop\PutterFitting - Windows Form\PutterFitting\bin\Debug\PutterFitting.exe
+C:\Users\Andrew Rotert School\Desktop\PutterFitting - Windows Form\PutterFitting\bin\Debug\PutterFitting.pdb
+C:\Users\Andrew Rotert School\Desktop\PutterFitting - Windows Form - Copy\PutterFitting\bin\Debug\PutterFitting.exe.config
+C:\Users\Andrew Rotert School\Desktop\PutterFitting - Windows Form - Copy\PutterFitting\bin\Debug\PutterFitting.exe
+C:\Users\Andrew Rotert School\Desktop\PutterFitting - Windows Form - Copy\PutterFitting\bin\Debug\PutterFitting.pdb
+C:\Users\Andrew Rotert School\Desktop\PutterFitting - Windows Form - Copy\PutterFitting\obj\Debug\PutterFitting.csprojAssemblyReference.cache
+C:\Users\Andrew Rotert School\Desktop\PutterFitting - Windows Form - Copy\PutterFitting\obj\Debug\PutterFitting.PutterFittingSoftware.resources
+C:\Users\Andrew Rotert School\Desktop\PutterFitting - Windows Form - Copy\PutterFitting\obj\Debug\PutterFitting.Properties.Resources.resources
+C:\Users\Andrew Rotert School\Desktop\PutterFitting - Windows Form - Copy\PutterFitting\obj\Debug\PutterFitting.csproj.GenerateResource.cache
+C:\Users\Andrew Rotert School\Desktop\PutterFitting - Windows Form - Copy\PutterFitting\obj\Debug\PutterFitting.csproj.CoreCompileInputs.cache
+C:\Users\Andrew Rotert School\Desktop\PutterFitting - Windows Form - Copy\PutterFitting\obj\Debug\PutterFitting.exe
+C:\Users\Andrew Rotert School\Desktop\PutterFitting - Windows Form - Copy\PutterFitting\obj\Debug\PutterFitting.pdb
