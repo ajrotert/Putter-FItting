@@ -100,6 +100,7 @@ namespace PutterFitting//added admin function, start, postlogin
             OutBox.Text = "Best Fitting Putters: " + Environment.NewLine;
             for (int a = 0; a < results.Length; a++)
                 OutBox.Text += results[a] + Environment.NewLine;
+            OutBox.Text += Environment.NewLine + "Length: " + person1.fit.putter.PutterLength + " Grip: " + person1.fit.putter.PutterGrip;
         }
         private void Manage_Click(object sender, EventArgs e)
         {
@@ -113,16 +114,19 @@ namespace PutterFitting//added admin function, start, postlogin
                     Controls.Remove(optionsList);
                     Controls.Remove(manageButton);
                     admin1.AddNewPutter(putter);
+                    putterCounter = 0;
+                    admin();//resets process
+
                 }
                 else
                     for (int a = 0; a < 4; a++)
                         optionsList.Items.Add(putterList[putterCounter, a]);
-                
 
             }
             else if(manageButton.Text == "Remove")
             {
                 admin1.RemovePutter();
+                admin();//resets process
             }
             else
             {
@@ -269,15 +273,15 @@ namespace PutterFitting//added admin function, start, postlogin
                 {
                     SaveData saved = new SaveData("users.txt");
                     string[] information = saved.accessData(credentials[0], credentials[1]);
-                    string[] ii = information[0].Split('\u00BB');//instance information
+                    string[] instanceInformation = information[0].Split('\u00BB');//instance information
                     if (credentials[0] == "admin")
                     {
-                        admin1 = new Admin(ii[2], ii[3]);
+                        admin1 = new Admin(instanceInformation[2], instanceInformation[3]);
                         admin();
                     }
                     else
                     {
-                        person1 = new Consumer(ii[0], ii[1], ii[2], ii[3], ii[4]);//instance user
+                        person1 = new Consumer(instanceInformation[0], instanceInformation[1], instanceInformation[4], instanceInformation[2], instanceInformation[3]);//instance user
                         postLogin();
                     }
 
@@ -285,7 +289,7 @@ namespace PutterFitting//added admin function, start, postlogin
                 else
                 { 
                     OutBox.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-                    OutBox.Text += "First Name: " + Environment.NewLine + "Last Name: " + Environment.NewLine + "Handicap: " + Environment.NewLine + "Credit Card Number: " + Environment.NewLine + "CVV2: " + Environment.NewLine + "Expiration Date: "+Environment.NewLine;   
+                    OutBox.Text += "First Name: " + Environment.NewLine + "Last Name: " + Environment.NewLine + "Birthdate(xx/xx/xxxx): " + Environment.NewLine + "Credit Card Number: " + Environment.NewLine + "CVV2: " + Environment.NewLine + "Expiration Date: "+Environment.NewLine;   
                     Login.Text = "Create";
                 }
             }
@@ -294,25 +298,96 @@ namespace PutterFitting//added admin function, start, postlogin
                 string log = OutBox.Text;
                 string[] userInfo;
                 userInfo = log.Split('\n');
-                userInfo[0] = userInfo[0].Remove(0, 7);
+                userInfo[0] = userInfo[0].Remove(0, 7);//username
                 userInfo[0] = userInfo[0].Remove(userInfo[0].Length-1);
-                userInfo[1] = userInfo[1].Remove(0, 10);
+                userInfo[1] = userInfo[1].Remove(0, 10);//password
                 userInfo[1] = userInfo[1].Remove(userInfo[1].Length - 1);
-                userInfo[2] = userInfo[2].Remove(0, 12);
+                userInfo[2] = userInfo[2].Remove(0, 12);//first name
                 userInfo[2] = userInfo[2].Remove(userInfo[2].Length - 1);
-                userInfo[3] = userInfo[3].Remove(0, 11);
+                userInfo[3] = userInfo[3].Remove(0, 11);//last name
                 userInfo[3] = userInfo[3].Remove(userInfo[3].Length - 1);
-                userInfo[4] = userInfo[4].Remove(0, 10);
+                userInfo[4] = userInfo[4].Remove(0, 23);//birthdate
                 userInfo[4] = userInfo[4].Remove(userInfo[4].Length - 1);
-                userInfo[5] = userInfo[5].Remove(0, 20);
+                userInfo[5] = userInfo[5].Remove(0, 20);//cc num
                 userInfo[5] = userInfo[5].Remove(userInfo[5].Length - 1);
-                userInfo[6] = userInfo[6].Remove(0, 6);
+                userInfo[6] = userInfo[6].Remove(0, 6);//cvv2 num
                 userInfo[6] = userInfo[6].Remove(userInfo[6].Length - 1);
-                userInfo[7] = userInfo[7].Remove(0, 17);
+                userInfo[7] = userInfo[7].Remove(0, 17);//experation date
                 userInfo[7] = userInfo[7].Remove(userInfo[7].Length - 1);
-                person1 = new Consumer(userInfo[0], userInfo[1], userInfo[4], userInfo[5], userInfo[6], userInfo[7], userInfo[2], userInfo[3]); //new instance
-                person1.addNewPerson();
-                postLogin();
+                person1 = new Consumer(userInfo[0], userInfo[1], userInfo[4], userInfo[5], userInfo[6], Convert.ToDateTime(userInfo[7]), userInfo[2], userInfo[3]); //new instance
+                if (person1.UserCard.MakePayment(5.99))
+                {
+                    person1.addNewPerson();
+                    postLogin();
+                }
+            }
+        }
+
+        private void ChangePasswordLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            if(Users.Active)//if user clicked login
+            {
+                if (ChangePasswordLink.Text == "Change")
+                {
+                    string log = OutBox.Text;
+                    string[] credentials;
+                    credentials = log.Split('\n');
+                    credentials[0] = credentials[0].Remove(0, 12);//firstname
+                    credentials[1] = credentials[1].Remove(0, 11);//lastname
+                    credentials[2] = credentials[2].Remove(0, 14);//newpassword
+                    credentials[0] = credentials[0].Remove(credentials[0].Length - 1);
+                    credentials[1] = credentials[1].Remove(credentials[1].Length - 1);
+                    credentials[2] = credentials[2].Remove(credentials[2].Length - 1);
+
+                    if (Admin.Active) //if user is admin
+                    {
+                        if (admin1.ChangePassword(credentials[0], credentials[1], credentials[2]))
+                            OutBox.Text = "Done.";
+                    }
+                    else
+                    {
+                        if (person1.ChangePassword(credentials[0], credentials[1], credentials[2], person1.username))
+                            OutBox.Text = "Done.";
+                    }
+                    ChangePasswordLink.Text = "Change Password";
+                }
+                else
+                {
+                    ChangePasswordLink.Text = "Change";
+                    OutBox.Font = new System.Drawing.Font("Segoe MDL2 Assets", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                    OutBox.Text = "First Name: " + Environment.NewLine + "Last Name: " + Environment.NewLine + "New Password: " + Environment.NewLine;
+                }
+            }
+            else
+            {
+                if (ChangePasswordLink.Text == "Reset")
+                {
+                    string log = OutBox.Text;
+                    string[] credentials;
+                    credentials = log.Split('\n');
+                    credentials[0] = credentials[0].Remove(0, 10);//username
+                    credentials[1] = credentials[1].Remove(0, 12);//firstname
+                    credentials[2] = credentials[2].Remove(0, 11);//lastname
+                    credentials[3] = credentials[3].Remove(0, 14);//newpassword
+                    credentials[4] = credentials[4].Remove(0, 11);//birthdate
+                    credentials[0] = credentials[0].Remove(credentials[0].Length - 1);
+                    credentials[1] = credentials[1].Remove(credentials[1].Length - 1);
+                    credentials[2] = credentials[2].Remove(credentials[2].Length - 1);
+                    credentials[3] = credentials[3].Remove(credentials[3].Length - 1);
+                    credentials[4] = credentials[4].Remove(credentials[4].Length - 1);
+                    if (Users.ChangePassword(credentials[0], credentials[1], credentials[2], credentials[3], Convert.ToDateTime(credentials[4])))
+                        OutBox.Text = "Done.";
+                    else
+                        MessageBox.Show("Could not verify credentials");
+                    ChangePasswordLink.Text = "Change Password";
+                }
+                else
+                {
+                    ChangePasswordLink.Text = "Reset";
+                    OutBox.Font = new System.Drawing.Font("Segoe MDL2 Assets", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                    OutBox.Text = "Username: " + Environment.NewLine + "First Name: " + Environment.NewLine + "Last Name: " + Environment.NewLine + "New Password: " + Environment.NewLine + "Birthdate: " + Environment.NewLine;
+                }
+
             }
         }
     }
@@ -327,7 +402,8 @@ namespace PutterFitting//added admin function, start, postlogin
         Swing path {"Arcing Path", "Straight Back Straight Through"};
         Alignment {"Struggles with Alignment", "Alignment is Okay"};
         Height {"Greather than 6ft 6in", "Greater than 6ft", "Less than 6ft", "Less than 5ft 5in"};
-        head movement {"Wrist bend", "No Wrist Bend", "Not Applicable"};
+        head movement {"
+        bend", "No Wrist Bend", "Not Applicable"};
         Grip perefrence {"Standard Size Grip", "Larger Grip", "Not Applicable"};
         Feel {"Softer Feel", "Harder Feel", "Not Applicable"};
 

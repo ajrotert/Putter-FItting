@@ -33,6 +33,7 @@
             this.optionsTitle = new System.Windows.Forms.Label();
             this.importanceTitle = new System.Windows.Forms.Label();
             this.Login = new System.Windows.Forms.Button();
+            this.ChangePasswordLink = new System.Windows.Forms.LinkLabel();
             this.SuspendLayout();
             // 
             // OutBox
@@ -42,6 +43,7 @@
             this.OutBox.Location = new System.Drawing.Point(49, 137);
             this.OutBox.Multiline = true;
             this.OutBox.Name = "OutBox";
+            this.OutBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.OutBox.Size = new System.Drawing.Size(1233, 219);
             this.OutBox.TabIndex = 0;
             this.OutBox.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
@@ -86,6 +88,18 @@
             this.Login.UseVisualStyleBackColor = true;
             this.Login.Click += new System.EventHandler(this.Login_Click);
             // 
+            // ChangePasswordLink
+            // 
+            this.ChangePasswordLink.AutoSize = true;
+            this.ChangePasswordLink.LinkColor = System.Drawing.Color.Silver;
+            this.ChangePasswordLink.Location = new System.Drawing.Point(1095, 137);
+            this.ChangePasswordLink.Name = "ChangePasswordLink";
+            this.ChangePasswordLink.Size = new System.Drawing.Size(187, 25);
+            this.ChangePasswordLink.TabIndex = 22;
+            this.ChangePasswordLink.TabStop = true;
+            this.ChangePasswordLink.Text = "Change Password";
+            this.ChangePasswordLink.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.ChangePasswordLink_LinkClicked);
+            // 
             // PutterFittingSoftware
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
@@ -93,12 +107,15 @@
             this.AutoSize = true;
             this.BackColor = System.Drawing.Color.MidnightBlue;
             this.ClientSize = new System.Drawing.Size(1328, 694);
+            this.Controls.Add(this.ChangePasswordLink);
             this.Controls.Add(this.Login);
             this.Controls.Add(this.importanceTitle);
             this.Controls.Add(this.optionsTitle);
             this.Controls.Add(this.PutterTitle);
             this.Controls.Add(this.OutBox);
+            this.Cursor = System.Windows.Forms.Cursors.Cross;
             this.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.MaximizeBox = false;
             this.Name = "PutterFittingSoftware";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Putter Fitting Software";
@@ -115,6 +132,7 @@
         private System.Windows.Forms.Label optionsTitle;
         private System.Windows.Forms.Label importanceTitle;
         private System.Windows.Forms.Button Login;
+        private System.Windows.Forms.LinkLabel ChangePasswordLink;
     }
 }
 

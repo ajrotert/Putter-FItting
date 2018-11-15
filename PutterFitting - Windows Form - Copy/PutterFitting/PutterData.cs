@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace PutterFitting    // removed putterVal, changed putterLink, to  putterFits array
+namespace PutterFitting    // d putterVal, changed putterLink, to  putterFits array
 {  //added PutterLength and PutterGrip and putterCharacteristics
     public class PutterData
 	{

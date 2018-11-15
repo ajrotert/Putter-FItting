@@ -13,7 +13,6 @@ namespace PutterFitting //added verify, also changed fileName to data, removed f
         this.fileName = fileName;
         }
 		string fileName;
-		//string fileData;
 
 		public bool save(params string[] data)                  //returns true if data was sucessfully saved
         {
@@ -26,8 +25,9 @@ namespace PutterFitting //added verify, also changed fileName to data, removed f
                     sw.WriteLine();
                     return true;
                 }
-            }//                        sw.Write("" + data[a] +  " " + '\u00BB' + " ");
-
+            }
+            File.Create(fileName);
+            MessageBox.Show(fileName + " created.");
             return false;
         }
         public bool remove(params string[] data)            //returns bool value if successful, removes line of code.
@@ -38,12 +38,14 @@ namespace PutterFitting //added verify, also changed fileName to data, removed f
                 List<string> allData = new List<string>();
                 for (int a = 0; a < theWholeFile.Length; a++)
                 {
-                    if (!theWholeFile[a].Contains(data[0]))
+                    if (!theWholeFile[a].Contains(data[0]+ '\u00BB'))
                         allData.Add(theWholeFile[a]);
                 }
                 File.WriteAllLines(fileName, allData.ToArray());
                 return true;
             }
+            File.Create(fileName);
+            MessageBox.Show(fileName + " created.");
             return false;
         }
         public bool verify(params string[] data) //returns bool value for matching username, password
@@ -56,14 +58,18 @@ namespace PutterFitting //added verify, also changed fileName to data, removed f
                 {
                     compares += data[a] + '\u00BB';
                 }
-                if (check.Length > 0 && check[0].Contains(compares))
-                    return true;
+                for(int a=0; a<check.Length;a++)
+                    if (check.Length > 0 && check[a].Contains(compares))
+                        return true;
+                return false;
             }
+            File.Create(fileName);
+            MessageBox.Show(fileName + " created.");
             return false;
         }
 
         public string[] accessData(params string[] data) //returns a string of matching information
-        {            // Open the file to read from.
+        {
             if (fileExist(fileName))
             {
                 List<string> dataList = new List<string>();
@@ -90,21 +96,35 @@ namespace PutterFitting //added verify, also changed fileName to data, removed f
                             dataList.Add("empty list");
                     }
                 }
-
+                int[] tracking = new int[dataList.Count];
+                int trackingCount = 0;
                 for (int a = 1; a < data.Length; a++) //the number of parameters sent in
                 {
-                    for (int b = 0;( b < dataList.Count && dataList.Count > 1); b++)//not perfect, if there are not perfect matches then it limits it to last option presented, future versions could show all the non perfect matches
-                    {                                                           //change the deleting to track the ones that need deleting then if greater than 1 delete
+                    for (int b = 0; b < dataList.Count && dataList.Count >= 1; b++)
+                    {
                         if (!dataList[b].Contains(data[a]))
                         {
-                            dataList.RemoveAt(b);
-                            b--;
+                            tracking[trackingCount] = b;
+                            trackingCount++;
                         }
                     }
+                    if (trackingCount <= dataList.Count - 1)
+                    {
+                        int eliminated = 0;
+                        for (int b = 0; b < trackingCount; b++)
+                        {
+                            dataList.RemoveAt(tracking[b]- eliminated);
+                            eliminated++;
+                        }
+                        trackingCount = 0;
+                    }
+                    trackingCount = 0;
                 }
                 string[] array = dataList.ToArray();
                 return array;
             }
+            File.Create(fileName);
+            MessageBox.Show(fileName + " created.");
             return null;
         }
 

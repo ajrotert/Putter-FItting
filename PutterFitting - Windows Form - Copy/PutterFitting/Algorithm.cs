@@ -4,11 +4,6 @@ using System.Text;
 using System.Windows.Forms;
 namespace PutterFitting       //changed relativeImportance to public static, changed find arr val to private, added const int heap size
 {
-    /*public struct node
-    {
-        public int importance;
-        public string putterTrait;
-    }; */  //already include in namespace
     public class Algorithm
 	    {
             public Algorithm(string[] data, int[] userImportance)
@@ -21,9 +16,9 @@ namespace PutterFitting       //changed relativeImportance to public static, cha
     		int[] _userImportance;
             public static int[] relativeImportance = {3, 2, 1, 5, 3, 0, 4, 0, 1};
             public const int HEAP_SIZE = 7;
-            public int last = -1;
+            private int last = -1;
             node[] heap = new node[HEAP_SIZE];
-            PutterData putter;
+            public PutterData putter;
 
             private void FindArrVal()
     		{

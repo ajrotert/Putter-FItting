@@ -28,3 +28,12 @@ Odyssey O-Works #7 Tank»Normal Putter Head»Face Balanced»Offset Shaft»Heavie
 Odyssey O-Works 2-Ball»Normal Putter Head»Face Balanced»Offset Shaft»Standard Weight»Softer Feel»
 Odyssey O-Works #2M CS»Normal Putter Head»Face Balanced»Straight Shaft»Standard Weight»Softer Feel»
 Odyssey O-Works #3T»Normal Putter Head»Face Balanced»Offset Shaft»Lighter Weight»Softer Feel»
+Ping Sigma 2 Anser»Normal Putter Head»Toe Weighted»Offset Shaft»Standard Weight»Harder Feel»
+Ping Sigma 2 Arna»Wide Putter Head»Toe Weighted»Offset Shaft»Heavier Weight»Harder Feel»
+Ping Sigma 2 Fetch»Wide Putter Head»Face Balanced»Offset Shaft»Heavier Weight»Harder Feel»
+Ping Sigma 2 Kushin C»Normal Putter Head»Face Balanced»Straight Shaft»Standard Weight»Harder Feel»
+Ping Sigma 2 Tyne»Normal Putter Head»Face Balanced»Offset Shaft»Standard Weight»Harder Feel»
+Ping Sigma 2 Tyne 4»Normal Putter Head»Face Balanced»Offset Shaft»Heavier Weight»Harder Feel»
+Ping Sigma 2 Valor»Wide Putter Head»Face Balanced»Offset Shaft»Standard Weight»Harder Feel»
+Ping Sigma 2 Wolverine H»Wide Putter Head»Face Balanced»Offset Shaft»Heavier Weight»Harder Feel»
+Ping Sigma 2 ZB 2»Normal Putter Head»Toe Weighted»Offset Shaft»Lighter Weight»Harder Feel»

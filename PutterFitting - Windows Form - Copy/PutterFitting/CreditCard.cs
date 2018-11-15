@@ -1,30 +1,39 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Windows.Forms;
 
 namespace PutterFitting
 {
-	public class CreditCard //changed everything to strings
+	public class CreditCard // string credit card number, no longer inherts
 	{
-        public CreditCard(string Fname, string Lname)
+        public CreditCard(string CrediCardNumber, string cvv2, DateTime expirationDate)
         {
-        _cvv2 = "0";
-        _CreditCardNumber = null;
-            _expirationDate = DateTime.Now.ToString();
-        }
-        public CreditCard(string CrediCardNumber, string cvv2, string expirationDate, string Fname, string Lname)
-        {
-        _CreditCardNumber = CrediCardNumber;
-        _cvv2 = cvv2;
-        _expirationDate = expirationDate;
+            _CreditCardNumber = CrediCardNumber;
+            _cvv2 = Convert.ToInt32(cvv2);
+            _expirationDate = expirationDate;
         }
 		string _CreditCardNumber;
-		string _cvv2;
-		string _expirationDate;
+		int _cvv2;
+		DateTime _expirationDate;
 
-		public bool MakePayment(int total)
+		public bool MakePayment(double total)
 		{
-            return true;
+            if (_expirationDate > DateTime.Now && _CreditCardNumber.Length == 16)
+            {
+                MessageBox.Show("Payment made on: xxxxxxxxxxxx" + _CreditCardNumber[12].ToString() + _CreditCardNumber[13].ToString() + _CreditCardNumber[14].ToString() + _CreditCardNumber[15].ToString() + Environment.NewLine + "Total of: " + total);
+                return true;
+            }
+            else if(_expirationDate < DateTime.Now)
+            {
+                MessageBox.Show("Credit Card Expired");
+                return false;
+            }
+            else
+            {
+                MessageBox.Show("Invalid Credit Card Number");
+                return false;
+            }
 		}
 	}
 }
