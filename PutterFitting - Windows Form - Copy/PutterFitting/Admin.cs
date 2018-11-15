@@ -20,7 +20,7 @@ namespace PutterFitting //admin inherts, cc does not//added changepassword overr
         SaveData putterSave = new SaveData("putters.txt");
         public bool putterExist()
         {
-            return UserSave.verify(managePutter);
+            return putterSave.verify(managePutter);
         }
         public void AddNewPutter(params string[] putterData)
         {
