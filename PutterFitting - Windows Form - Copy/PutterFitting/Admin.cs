@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace PutterFitting //admin inherts, cc does not//added changepassword override added active
+namespace PutterFitting
 {
     public class Admin : Users
     {
@@ -37,6 +37,42 @@ namespace PutterFitting //admin inherts, cc does not//added changepassword overr
             success = putterSave.remove(managePutter);
             if (success == false)
                 MessageBox.Show(managePutter + " not found in file");
+        }
+        public string[] viewPutter()
+        {
+            string[] matching = putterSave.accessData(('\u00BB').ToString());
+            for(int a = 0; a<matching.Length; a++)
+            {
+                matching[a] = matching[a].Replace('\u00BB', '|');
+            }
+            return matching;
+        }
+        public string[] viewPutter(string[] data)
+        {
+            List<string> combined = new List<string>();
+            for (int i = 0; i < data.Length; i++)
+            {
+                string[] matching;
+                if (data[i] == "")
+                {
+                    matching = viewPutter();
+                }
+                else
+                {
+                    if (data[i][data[i].Length - 1] == '\r')
+                        data[i] = data[i].Remove(data[i].Length - 1);
+                    matching = putterSave.accessData(data[i]);
+                }
+                for (int a = 0; a < matching.Length; a++)
+                {
+                        matching[a] = matching[a].Replace('\u00BB', '|');
+                        combined.Add(matching[a]);
+                }
+                if (matching.Length == 1 && !matching[0].Contains(data[i]))
+                    combined[i] = " ";
+            }
+            
+            return combined.ToArray();
         }
         public override bool ChangePassword(string firstName, string lastName, string newPassword, string username = "admin")
         {

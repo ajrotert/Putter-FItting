@@ -133,6 +133,7 @@
         private System.Windows.Forms.Label importanceTitle;
         private System.Windows.Forms.Button Login;
         private System.Windows.Forms.LinkLabel ChangePasswordLink;
+
     }
 }
 

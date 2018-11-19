@@ -74,3 +74,4 @@ namespace PutterFitting //removed save data //add remove person? added start fit
         }
     }
 }
+//add function that gets credit card number, may store in seperate file

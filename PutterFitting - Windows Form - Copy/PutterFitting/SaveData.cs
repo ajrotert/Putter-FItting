@@ -13,6 +13,7 @@ namespace PutterFitting //added verify, also changed fileName to data, removed f
         this.fileName = fileName;
         }
 		string fileName;
+		//string fileData;
 
 		public bool save(params string[] data)                  //returns true if data was sucessfully saved
         {
@@ -41,6 +42,14 @@ namespace PutterFitting //added verify, also changed fileName to data, removed f
                     if (!theWholeFile[a].Contains(data[0]+ '\u00BB'))
                         allData.Add(theWholeFile[a]);
                 }
+                for(int a = 0; a<allData.Count; a++)
+                {
+                    for(int b = 1; b < data.Length; b++)
+                    {
+                        if (allData[a].Contains(data[b] + '\u00BB'))
+                            allData.RemoveAt(b);
+                    }
+                }
                 File.WriteAllLines(fileName, allData.ToArray());
                 return true;
             }
@@ -58,9 +67,11 @@ namespace PutterFitting //added verify, also changed fileName to data, removed f
                 {
                     compares += data[a] + '\u00BB';
                 }
-                for(int a=0; a<check.Length;a++)
+                for (int a = 0; a < check.Length; a++)
+                {
                     if (check.Length > 0 && check[a].Contains(compares))
                         return true;
+                }
                 return false;
             }
             File.Create(fileName);
