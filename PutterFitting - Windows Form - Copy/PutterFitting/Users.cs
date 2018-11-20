@@ -37,13 +37,17 @@ namespace PutterFitting //changed the change pasword params to have poly, added 
         internal static bool ChangePassword(string username, string firstname, string lastname, string newPassword, DateTime birthdate)
         {
             SaveData UserSave = new SaveData("users.txt"); //need here because instance of user does not exist
-            if(UserSave.verify(username)&&UserSave.verify(firstname, lastname, birthdate.ToShortDateString()))
+            if (UserSave.verify(username) && UserSave.verify(firstname, lastname, birthdate.ToShortDateString()))
             {
                 UserSave.remove(username);
                 UserSave.save(username, newPassword, firstname, lastname, birthdate.ToShortDateString());
                 return true;
             }
-            return false;
+            else
+            {
+                MessageBox.Show("Could not verify credentials");
+                return false;
+            }
         }
         
     }

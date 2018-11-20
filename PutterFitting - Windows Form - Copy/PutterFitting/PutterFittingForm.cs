@@ -11,6 +11,7 @@ namespace PutterFitting//added admin function, start, postlogin
 {
     public partial class PutterFittingSoftware : Form
     {
+        private System.Windows.Forms.TextBox OutBox;
         private System.Windows.Forms.ListBox optionsList;
         private System.Windows.Forms.TextBox importanceBox;
         private System.Windows.Forms.Label oneToFiveLabel;
@@ -18,6 +19,23 @@ namespace PutterFitting//added admin function, start, postlogin
         private System.Windows.Forms.Button manageButton;
         private System.Windows.Forms.Button viewAllButton;
         private System.Windows.Forms.Button infoButton;
+        private System.Windows.Forms.Label FirstNameLabel;
+        private System.Windows.Forms.Label LastNameLabel;
+        private System.Windows.Forms.TextBox FNameInputBox;
+        private System.Windows.Forms.TextBox LNameInputBox;
+        private System.Windows.Forms.Label BirthdateLabel;
+        private System.Windows.Forms.Label CreditCardLabel;
+        private System.Windows.Forms.TextBox BirthdateInputBox;
+        private System.Windows.Forms.TextBox CreditCardInputBox;
+        private System.Windows.Forms.Label CVV2Label;
+        private System.Windows.Forms.Label ExpirationLabel;
+        private System.Windows.Forms.TextBox CVV2InputBox;
+        private System.Windows.Forms.TextBox ExpirationInputBox;
+        private System.Windows.Forms.Button Login;
+        private System.Windows.Forms.Label LoginLabel;
+        private System.Windows.Forms.Label passwordLabel;
+        private System.Windows.Forms.TextBox LoginInputBox;
+        private System.Windows.Forms.TextBox PasswordInputBox;
 
         public string[] data = new string[9];
         public int[] importance = new int[9];
@@ -32,7 +50,7 @@ namespace PutterFitting//added admin function, start, postlogin
             { "Lighter Weight", "Heavier Weight", "Standard Weight", "" },
             { "Softer Feel", "Harder Feel", "", "" }
         };
-        public int putterCounter =0;
+        public int putterCounter = 0;
         public string[,] listItems = new string[9, 4] {
         {"", "", "", "" },
         {"Long", "Short", "Not Applicable", ""},
@@ -60,16 +78,9 @@ namespace PutterFitting//added admin function, start, postlogin
         }
         private void PutterFittingSoftware_Load(object sender, EventArgs e)
         {
-            OutBox.Text = "Login: " + Environment.NewLine + "Password: "+Environment.NewLine;
+            loginSetup();
         }
-        private void SwingPathImportance_TextChanged(object sender, EventArgs e)
-        {
 
-        }
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
         private void NextButton_Click(object sender, EventArgs e)
         {
             data[counter] = optionsList.Text;
@@ -77,16 +88,7 @@ namespace PutterFitting//added admin function, start, postlogin
             optionsList.Items.Clear();
             counter++;
             if (counter == 9)
-            {
-                Controls.Remove(optionsList);
-                Controls.Remove(NextButton);
-                Controls.Remove(optionsTitle);
-                Controls.Remove(importanceBox);
-                Controls.Remove(oneToFiveLabel);
-                Controls.Remove(importanceTitle);
-                Controls.Remove(infoButton);
                 start();
-            }
             else
             {
                 optionsTitle.Text = listNames[counter];
@@ -94,14 +96,12 @@ namespace PutterFitting//added admin function, start, postlogin
                     optionsList.Items.Add(listItems[counter, a]);
                 importanceBox.Text = "5";
             }
+        }
 
-        }//next button
         private void start()
         {
             string[] results = person1.startFit(data, importance);
-            OutBox.Font = new System.Drawing.Font("Segoe MDL2 Assets", 30F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            OutBox.Size = new System.Drawing.Size(616, 325);
-            OutBox.Text = "Best Fitting Putters: " + Environment.NewLine;
+            resultsSetup();
             for (int a = 0; a < results.Length; a++)
                 OutBox.Text += results[a] + Environment.NewLine;
             OutBox.Text += Environment.NewLine + "Length: " + person1.fit.putter.PutterLength + " Grip: " + person1.fit.putter.PutterGrip;
@@ -113,71 +113,55 @@ namespace PutterFitting//added admin function, start, postlogin
                 string[] search = OutBox.Text.Remove(0, 66).Split('\n');
                 string[] results;
 
-                optionsList = new System.Windows.Forms.ListBox();
-                optionsList.Font = new System.Drawing.Font("Segoe MDL2 Assets", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-                optionsList.FormattingEnabled = true;
-                optionsList.ItemHeight = 25;
-                optionsList.Location = new System.Drawing.Point(25, 230);
-                optionsList.Name = "optionsList";
-                optionsList.Size = new System.Drawing.Size(620, 104);
-                optionsList.TabIndex = 3;
-                Controls.Add(optionsList);
+                showPutterSetup();
 
                 if (search.Length == 1 && search[0] == "")
                     results = admin1.viewPutter();
                 else
                     results = admin1.viewPutter(search);
                 for (int a = 0; a < results.Length; a++)
-                {
                     optionsList.Items.Add(results[a]);
-                }
                 viewAllButton.Text = "Remove / Restart";
                 viewAllButton.Location = new System.Drawing.Point(560, 150);
             }
             else if (viewAllButton.Text == "Remove / Restart")
             {
-                if (optionsList.SelectedIndex>=0)
+                if (optionsList.SelectedIndex >= 0)
                 {
                     admin1.managePutter = optionsList.Text.Split('|', '\n')[0];
                     admin1.RemovePutter();
                 }
-                Controls.Remove(optionsList);
-                Controls.Remove(viewAllButton);
-                admin();//rests process
+                adminSetup();
             }
             else
             {
+                Controls.Remove(optionsList);
                 viewAllButton.Text = "Search";
                 OutBox.Text = "Enter putter name, brand, or category. (Leave Blank to view all): ";
                 Controls.Remove(manageButton);
             }
         }
+
         private void Manage_Click(object sender, EventArgs e)
         {
-            if(manageButton.Text == "Add")
+            if (manageButton.Text == "Add")
             {
                 putter[putterCounter] = optionsList.Text;
                 optionsList.Items.Clear();
                 putterCounter++;
                 if (putterCounter == 5)
                 {
-                    Controls.Remove(optionsList);
-                    Controls.Remove(manageButton);
-                    Controls.Remove(viewAllButton);
                     admin1.AddNewPutter(putter);
-                    putterCounter = 0;
-                    admin();//resets process
-
+                    putterEndSetup();
                 }
                 else
                     for (int a = 0; a < 4; a++)
                         optionsList.Items.Add(putterList[putterCounter, a]);
-
             }
-            else if(manageButton.Text == "Remove")
+            else if (manageButton.Text == "Remove")
             {
                 admin1.RemovePutter();
-                admin();//resets process
+                adminSetup();//resets process
             }
             else
             {
@@ -187,29 +171,349 @@ namespace PutterFitting//added admin function, start, postlogin
                 if (admin1.putterExist())
                     manageButton.Text = "Remove";
                 else
-                {
-                    optionsList = new System.Windows.Forms.ListBox();
-
-                    manageButton.Text = "Add";
-                    optionsList.Font = new System.Drawing.Font("Segoe MDL2 Assets", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-                    optionsList.FormattingEnabled = true;
-                    optionsList.ItemHeight = 25;
-                    optionsList.Location = new System.Drawing.Point(120, 230);
-                    optionsList.Name = "optionsList";
-                    optionsList.Size = new System.Drawing.Size(306, 104);
-                    optionsList.TabIndex = 3;
-
-                    Controls.Add(optionsList);
-
-                    for (int a = 0; a < 4; a++)
-                        optionsList.Items.Add(putterList[putterCounter, a]);
-                }
+                    newPutterSetup();
             }
         }
-        private void admin()
+        
+        private void Login_Click(object sender, EventArgs e)
         {
+            if (Login.Text == "Login")
+            {
+                string username = LoginInputBox.Text;
+                string password = PasswordInputBox.Text;
+
+                if (Consumer.Login(username, password))
+                {
+                    SaveData saved = new SaveData("users.txt");
+                    string[] information = saved.accessData(username, password);
+                    string[] instanceInformation = information[0].Split('\u00BB');//instance information
+                    if (username == "admin")
+                    {
+                        admin1 = new Admin(instanceInformation[2], instanceInformation[3]);
+                        adminSetup();
+                    }
+                    else
+                    {
+                        person1 = new Consumer(instanceInformation[0], instanceInformation[1], instanceInformation[4], instanceInformation[2], instanceInformation[3]);//instance user
+                        fittingSetup();
+                    }
+                }
+                 else
+                    newUserSetup();
+            }
+             else
+             {
+                string username = LoginInputBox.Text;
+                string password = PasswordInputBox.Text;
+                string fname = FNameInputBox.Text;
+                string lname = LNameInputBox.Text;
+                string birthdate = BirthdateInputBox.Text;
+                string creditcardnumber = CreditCardInputBox.Text;
+                string cvv2 = CVV2InputBox.Text;
+                string expiration = ExpirationInputBox.Text;
+                if (!(birthdate[2] == '/' && birthdate[5] == '/' && birthdate.Length == 8))
+                    MessageBox.Show("Invalid Birthdate");
+                else if (!(expiration[2] == '/' && expiration[5] == '/' && expiration.Length == 8))
+                    MessageBox.Show("Invalid Expiration Date");
+                else if (!(cvv2.Length == 3 && cvv2[0] >= '0' && cvv2[0] <= '9' && cvv2[1] >= '0' && cvv2[1] <= '9' && cvv2[2] >= '0' && cvv2[2] <= '9'))
+                    MessageBox.Show("Invalid CVV2");
+                else
+                {
+                    person1 = new Consumer(username, password, birthdate, creditcardnumber, cvv2, Convert.ToDateTime(expiration), fname, lname); //new instance
+                    if (person1.addNewPerson())
+                        fittingSetup();
+                }
+             }
+        }
+        
+        private void ChangePasswordLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            if(Users.Active)//if user instance was created
+            {
+                if (ChangePasswordLink.Text == "Change")
+                {
+                    string firstname = FNameInputBox.Text;
+                    string lastname = LNameInputBox.Text;
+                    string newpassword = PasswordInputBox.Text;
+
+                    if (Admin.Active) //if user is admin
+                    {
+                        if (admin1.ChangePassword(firstname, lastname, newpassword)) { adminSetup(); }
+                    }
+                    else //user is not admin
+                    {
+                        if (person1.ChangePassword(firstname, lastname, newpassword, person1.username)) { fittingSetup(); }
+                    }
+                    ChangePasswordLink.Text = "Change Password";//resets the link
+                }
+                else
+                    changePasswordSetup();
+            }
+            else //user is not logged in
+            {
+                if (ChangePasswordLink.Text == "Reset")
+                {
+                    string username = LoginInputBox.Text;
+                    string firstname = FNameInputBox.Text;
+                    string lastname = LNameInputBox.Text;
+                    string newpassword = PasswordInputBox.Text;
+                    string birthdate = BirthdateInputBox.Text;
+                    if (Users.ChangePassword(username, firstname, lastname, newpassword, Convert.ToDateTime(birthdate))) { loginSetup(); }
+                    ChangePasswordLink.Text = "Change Password";
+                }
+                else
+                    resetPasswordSetup();
+
+            }
+        }
+
+        private void infoButton_Click(object sender, EventArgs e)
+        {
+            string[] infoHelp = { "If you have a consistent miss, left or right, select the appropriate option, otherwise select \"Not Applicable\". If you are not sure or your misses are not  consistent select \"Not Applicable\".",
+            "If you have a consistent miss, short or long, select the appropriate option, otherwise select \"Not Applicable\". If you are not sure or your misses are not  consistent select \"Not Applicable\".",
+            "The dominate eye affects alignment, select the appropriate option, if you are not sure what your dominate eye is, select \"Right Hand, Right Eye\".",
+            "An arcing swing path is when the putter head arcs around the target line, straight back and straight through swing path is when the putter head stays square on the target line.",
+            "If you struggle with alignment to the hole, select the appropriate option. Putter shapes may help with alignment. ",
+            "The length is loosely based on height. Selcet the closet option.",
+            "Bending wrists causes extra putter head movement. This can happen by leading the stroke with the hands. Select the appropriate options, if you are not sure select \"Not Applicable\".",
+            "If you have a preference on grips, select the appropriate option. If you are not sure select \"Not Applicable\".",
+            "Softer feeling putters will have less feedback, harder feeling putters will have more feedback. If you are not sure select \"Not Applicable\"."};
+            if (counter > 0)
+                MessageBox.Show(listNames[counter] + Environment.NewLine + infoHelp[counter]);
+            else
+                MessageBox.Show("Common Left to Right Miss" + Environment.NewLine + infoHelp[counter]);
+        }
+
+        private void loginSetup()
+        {
+            Controls.Clear();
+            Controls.Add(PutterTitle);
+            Controls.Add(ChangePasswordLink);
+
+            Login = new System.Windows.Forms.Button();
+            LoginLabel = new System.Windows.Forms.Label();
+            passwordLabel = new System.Windows.Forms.Label();
+            LoginInputBox = new System.Windows.Forms.TextBox();
+            PasswordInputBox = new System.Windows.Forms.TextBox();
+             
+            Login.Font = new System.Drawing.Font("Tahoma", 10.125F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            Login.ForeColor = System.Drawing.Color.MidnightBlue;
+            Login.Location = new System.Drawing.Point(560, 144);
+            Login.Name = "Login";
+            Login.Size = new System.Drawing.Size(82, 35);
+            Login.TabIndex = 21;
+            Login.Text = "Login";
+            Login.UseVisualStyleBackColor = true;
+            Login.Click += new System.EventHandler(this.Login_Click);
+             
+            LoginLabel.AutoSize = true;
+            LoginLabel.Font = new System.Drawing.Font("Segoe MDL2 Assets", 36F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            LoginLabel.ForeColor = System.Drawing.SystemColors.Control;
+            LoginLabel.Location = new System.Drawing.Point(17, 69);
+            LoginLabel.Name = "LoginLabel";
+            //LoginLabel.Size = new System.Drawing.Size(222, 96);
+            LoginLabel.TabIndex = 23;
+            LoginLabel.Text = "Login";
+            LoginLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+              
+            passwordLabel.AutoSize = true;
+            passwordLabel.Font = new System.Drawing.Font("Segoe MDL2 Assets", 36F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            passwordLabel.ForeColor = System.Drawing.SystemColors.Control;
+            passwordLabel.Location = new System.Drawing.Point(17, 130);
+            passwordLabel.Name = "passwordLabel";
+            //passwordLabel.Size = new System.Drawing.Size(364, 96);
+            passwordLabel.TabIndex = 24;
+            passwordLabel.Text = "Password";
+            passwordLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+             
+            LoginInputBox.Font = new System.Drawing.Font("Tahoma", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            LoginInputBox.ForeColor = System.Drawing.Color.DarkBlue;
+            LoginInputBox.Location = new System.Drawing.Point(224, 69);
+            LoginInputBox.Multiline = true;
+            LoginInputBox.Name = "LoginInputBox";
+            LoginInputBox.Size = new System.Drawing.Size(296, 48);
+            LoginInputBox.TabIndex = 25;
+            
+            PasswordInputBox.Font = new System.Drawing.Font("Tahoma", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            PasswordInputBox.ForeColor = System.Drawing.Color.DarkBlue;
+            PasswordInputBox.Location = new System.Drawing.Point(224, 130);
+            PasswordInputBox.Multiline = true;
+            PasswordInputBox.Name = "PasswordInputBox";
+            PasswordInputBox.Size = new System.Drawing.Size(295, 48);
+            PasswordInputBox.TabIndex = 26;
+            Controls.Add(PasswordInputBox);
+            Controls.Add(LoginInputBox);
+            Controls.Add(passwordLabel);
+            Controls.Add(LoginLabel);
+            Controls.Add(Login);
+        }
+        private void newUserSetup()
+        {
+            FirstNameLabel = new System.Windows.Forms.Label();
+            LastNameLabel = new System.Windows.Forms.Label();
+            FNameInputBox = new System.Windows.Forms.TextBox();
+            LNameInputBox = new System.Windows.Forms.TextBox();
+            BirthdateLabel = new System.Windows.Forms.Label();
+            CreditCardLabel = new System.Windows.Forms.Label();
+            BirthdateInputBox = new System.Windows.Forms.TextBox();
+            CreditCardInputBox = new System.Windows.Forms.TextBox();
+            CVV2Label = new System.Windows.Forms.Label();
+            ExpirationLabel = new System.Windows.Forms.Label();
+            CVV2InputBox = new System.Windows.Forms.TextBox();
+            ExpirationInputBox = new System.Windows.Forms.TextBox();
+
+            LoginLabel.Font = new System.Drawing.Font("Segoe MDL2 Assets", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            passwordLabel.Font = new System.Drawing.Font("Segoe MDL2 Assets", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            LoginInputBox.Size = new System.Drawing.Size(147, 24);
+            LoginInputBox.Font = new System.Drawing.Font("Segoe MDL2 Assets", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            PasswordInputBox.Size = new System.Drawing.Size(147, 24);
+            PasswordInputBox.Font = new System.Drawing.Font("Segoe MDL2 Assets", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            passwordLabel.Location = new System.Drawing.Point(17, 95);
+            PasswordInputBox.Location = new System.Drawing.Point(224, 95);
+            Login.Location = new System.Drawing.Point(560, 300);
+
+            FirstNameLabel.AutoSize = true;
+            FirstNameLabel.Font = new System.Drawing.Font("Segoe MDL2 Assets", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            FirstNameLabel.ForeColor = System.Drawing.SystemColors.Control;
+            FirstNameLabel.Location = new System.Drawing.Point(17, 175);
+            FirstNameLabel.Name = "FirstNameLabel";
+            //FirstNameLabel.Size = new System.Drawing.Size(222, 96);
+            FirstNameLabel.TabIndex = 23;
+            FirstNameLabel.Text = "First Name";
+            FirstNameLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+
+            LastNameLabel.AutoSize = true;
+            LastNameLabel.Font = new System.Drawing.Font("Segoe MDL2 Assets", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            LastNameLabel.ForeColor = System.Drawing.SystemColors.Control;
+            LastNameLabel.Location = new System.Drawing.Point(17, 200);
+            LastNameLabel.Name = "LastNameLabel";
+            //LastNameLabel.Size = new System.Drawing.Size(364, 96);
+            LastNameLabel.TabIndex = 24;
+            LastNameLabel.Text = "Last Name";
+            LastNameLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+
+            FNameInputBox.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            FNameInputBox.ForeColor = System.Drawing.Color.DarkBlue;
+            FNameInputBox.Location = new System.Drawing.Point(223, 175);
+            FNameInputBox.Multiline = true;
+            FNameInputBox.Name = "FNameInputBox";
+            FNameInputBox.Size = new System.Drawing.Size(147, 24);
+            FNameInputBox.TabIndex = 25;
+
+            LNameInputBox.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            LNameInputBox.ForeColor = System.Drawing.Color.DarkBlue;
+            LNameInputBox.Location = new System.Drawing.Point(223, 200);
+            LNameInputBox.Multiline = true;
+            LNameInputBox.Name = "LNameInputBox";
+            LNameInputBox.Size = new System.Drawing.Size(147, 24);
+            LNameInputBox.TabIndex = 26;
+
+            BirthdateLabel.AutoSize = true;
+            BirthdateLabel.Font = new System.Drawing.Font("Segoe MDL2 Assets", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            BirthdateLabel.ForeColor = System.Drawing.SystemColors.Control;
+            BirthdateLabel.Location = new System.Drawing.Point(17, 225);
+            BirthdateLabel.Name = "BirthdateLabel";
+            //BirthdateLabel.Size = new System.Drawing.Size(222, 96);
+            BirthdateLabel.TabIndex = 23;
+            BirthdateLabel.Text = "Birthdate (xx/xx/xx)";
+            BirthdateLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+
+            CreditCardLabel.AutoSize = true;
+            CreditCardLabel.Font = new System.Drawing.Font("Segoe MDL2 Assets", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            CreditCardLabel.ForeColor = System.Drawing.SystemColors.Control;
+            CreditCardLabel.Location = new System.Drawing.Point(17, 250);
+            CreditCardLabel.Name = "CreditCardLabel";
+            //CreditCardLabel.Size = new System.Drawing.Size(364, 96);
+            CreditCardLabel.TabIndex = 24;
+            CreditCardLabel.Text = "Credit Card Number";
+            CreditCardLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+
+            BirthdateInputBox.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            BirthdateInputBox.ForeColor = System.Drawing.Color.DarkBlue;
+            BirthdateInputBox.Location = new System.Drawing.Point(223, 225);
+            BirthdateInputBox.Multiline = true;
+            BirthdateInputBox.Name = "BirthdateInputBox";
+            BirthdateInputBox.Size = new System.Drawing.Size(147, 24);
+            BirthdateInputBox.TabIndex = 25;
+
+            CreditCardInputBox.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            CreditCardInputBox.ForeColor = System.Drawing.Color.DarkBlue;
+            CreditCardInputBox.Location = new System.Drawing.Point(223, 250);
+            CreditCardInputBox.Multiline = true;
+            CreditCardInputBox.Name = "CreditCardInputBox";
+            CreditCardInputBox.Size = new System.Drawing.Size(147, 24);
+            CreditCardInputBox.TabIndex = 26;
+
+            CVV2Label.AutoSize = true;
+            CVV2Label.Font = new System.Drawing.Font("Segoe MDL2 Assets", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            CVV2Label.ForeColor = System.Drawing.SystemColors.Control;
+            CVV2Label.Location = new System.Drawing.Point(17, 275);
+            CVV2Label.Name = "CVV2Label";
+            //CVV2Label.Size = new System.Drawing.Size(222, 96);
+            CVV2Label.TabIndex = 23;
+            CVV2Label.Text = "CVV2";
+            CVV2Label.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+
+            ExpirationLabel.AutoSize = true;
+            ExpirationLabel.Font = new System.Drawing.Font("Segoe MDL2 Assets", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            ExpirationLabel.ForeColor = System.Drawing.SystemColors.Control;
+            ExpirationLabel.Location = new System.Drawing.Point(17, 300);
+            ExpirationLabel.Name = "ExpirationLabel";
+            //ExpirationLabel.Size = new System.Drawing.Size(364, 96);
+            ExpirationLabel.TabIndex = 24;
+            ExpirationLabel.Text = "Expiration (xx/xx/xx)";
+            ExpirationLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+
+            CVV2InputBox.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            CVV2InputBox.ForeColor = System.Drawing.Color.DarkBlue;
+            CVV2InputBox.Location = new System.Drawing.Point(223, 275);
+            CVV2InputBox.Multiline = true;
+            CVV2InputBox.Name = "CVV2InputBox";
+            CVV2InputBox.Size = new System.Drawing.Size(147, 24);
+            CVV2InputBox.TabIndex = 25;
+
+            ExpirationInputBox.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            ExpirationInputBox.ForeColor = System.Drawing.Color.DarkBlue;
+            ExpirationInputBox.Location = new System.Drawing.Point(223, 300);
+            ExpirationInputBox.Multiline = true;
+            ExpirationInputBox.Name = "ExpirationInputBox";
+            ExpirationInputBox.Size = new System.Drawing.Size(147, 24);
+            ExpirationInputBox.TabIndex = 26;
+            Controls.Add(FirstNameLabel);
+            Controls.Add(LastNameLabel);
+            Controls.Add(FNameInputBox);
+            Controls.Add(LNameInputBox);
+            Controls.Add(BirthdateLabel);
+            Controls.Add(CreditCardLabel);
+            Controls.Add(BirthdateInputBox);
+            Controls.Add(CreditCardInputBox);
+            Controls.Add(CVV2Label);
+            Controls.Add(ExpirationLabel);
+            Controls.Add(CVV2InputBox);
+            Controls.Add(ExpirationInputBox);
+            Login.Text = "Create";
+        }
+        private void adminSetup()
+        {
+            Controls.Clear();
+            Controls.Add(PutterTitle);
+            Controls.Add(ChangePasswordLink);
+            OutBox = new System.Windows.Forms.TextBox();
+            OutBox.Font = new System.Drawing.Font("Tahoma", 16.125F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            OutBox.ForeColor = System.Drawing.Color.MidnightBlue;
+            OutBox.Location = new System.Drawing.Point(25, 69);
+            OutBox.Multiline = true;
+            OutBox.Name = "OutBox";
+            OutBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            OutBox.Size = new System.Drawing.Size(617, 115); //1233, 219
+            OutBox.TabIndex = 0;
             OutBox.Text = "Putter Name: ";
+            Controls.Add(OutBox);
             Controls.Remove(Login);
+            Controls.Remove(LoginLabel);//should be username
+            Controls.Remove(passwordLabel);
+            Controls.Remove(LoginInputBox);
+            Controls.Remove(PasswordInputBox);
             manageButton = new System.Windows.Forms.Button();
             manageButton.Font = new System.Drawing.Font("Tahoma", 10.125F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             manageButton.ForeColor = System.Drawing.Color.MidnightBlue;
@@ -237,9 +541,11 @@ namespace PutterFitting//added admin function, start, postlogin
             viewAllButton.BringToFront();
 
         }
-        private void postLogin()
+        private void fittingSetup()
         {
-            Controls.Remove(Login);
+            Controls.Clear();
+            Controls.Add(PutterTitle);
+            Controls.Add(ChangePasswordLink);
             optionsList = new System.Windows.Forms.ListBox();
             importanceBox = new System.Windows.Forms.TextBox();
             importanceTitle = new System.Windows.Forms.Label();
@@ -268,7 +574,7 @@ namespace PutterFitting//added admin function, start, postlogin
             "Right",
             "Not Applicable",
             " "});
-            optionsList.Location = new System.Drawing.Point(120,230);
+            optionsList.Location = new System.Drawing.Point(120, 230);
             optionsList.Name = "optionsList";
             optionsList.Size = new System.Drawing.Size(306, 104);
             optionsList.TabIndex = 3;
@@ -283,7 +589,6 @@ namespace PutterFitting//added admin function, start, postlogin
             importanceBox.TabIndex = 14;
             importanceBox.Text = "5";
             importanceBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            importanceBox.TextChanged += new System.EventHandler(this.SwingPathImportance_TextChanged);
             // 
             // importanceTitle
             // 
@@ -338,157 +643,181 @@ namespace PutterFitting//added admin function, start, postlogin
             Controls.Add(NextButton);
             Controls.Add(infoButton);
         }
-        private void Login_Click(object sender, EventArgs e)
+        private void newPutterSetup()
         {
-            if (Login.Text == "Login")
-            {
-                string log = OutBox.Text;
-                string[] credentials;
-                credentials = log.Split('\n');
-                credentials[0] = credentials[0].Remove(0, 7);
-                credentials[1] = credentials[1].Remove(0, 10);
+            optionsList = new System.Windows.Forms.ListBox();
+            manageButton.Text = "Add";
+            optionsList.Font = new System.Drawing.Font("Segoe MDL2 Assets", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            optionsList.FormattingEnabled = true;
+            optionsList.ItemHeight = 25;
+            optionsList.Location = new System.Drawing.Point(120, 230);
+            optionsList.Name = "optionsList";//optionsList is like a class, creating new instances
+            optionsList.Size = new System.Drawing.Size(306, 104);
+            optionsList.TabIndex = 3;
+            Controls.Add(optionsList);
+            for (int a = 0; a < 4; a++)
+                optionsList.Items.Add(putterList[putterCounter, a]);
+        }
+        private void putterEndSetup()
+        {
+            putterCounter = 0;
+            adminSetup();//resets process
+        }
+        private void showPutterSetup()
+        {
+            optionsList = new System.Windows.Forms.ListBox();
+            optionsList.Font = new System.Drawing.Font("Segoe MDL2 Assets", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            optionsList.FormattingEnabled = true;
+            optionsList.ItemHeight = 25;
+            optionsList.Location = new System.Drawing.Point(25, 230);
+            optionsList.Name = "optionsList";
+            optionsList.Size = new System.Drawing.Size(620, 104);
+            optionsList.TabIndex = 3;
+            Controls.Add(optionsList);
+        }
+        private void resultsSetup()
+        {
+            Controls.Clear();
+            Controls.Add(PutterTitle);
+            Controls.Add(ChangePasswordLink);
+            OutBox = new System.Windows.Forms.TextBox();
+            Controls.Remove(LoginLabel);
+            Controls.Remove(LoginInputBox);
+            Controls.Remove(passwordLabel);
+            Controls.Remove(PasswordInputBox);
+            OutBox.Font = new System.Drawing.Font("Segoe MDL2 Assets", 30F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            OutBox.Size = new System.Drawing.Size(616, 325);
+            OutBox.Font = new System.Drawing.Font("Tahoma", 16.125F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            OutBox.ForeColor = System.Drawing.Color.MidnightBlue;
+            OutBox.Location = new System.Drawing.Point(25, 69);
+            OutBox.Multiline = true;
+            OutBox.Name = "OutBox";
+            OutBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            OutBox.TabIndex = 0;
+            Controls.Add(OutBox);
+            OutBox.Text = "Best Fitting Putters: " + Environment.NewLine;
+        }
+        private void changePasswordSetup()
+        {
+            ChangePasswordLink.Text = "Change";
+            Controls.Clear();
+            Controls.Add(PutterTitle);
+            Controls.Add(ChangePasswordLink);
+            FirstNameLabel = new System.Windows.Forms.Label();
+            LastNameLabel = new System.Windows.Forms.Label();
+            FNameInputBox = new System.Windows.Forms.TextBox();
+            LNameInputBox = new System.Windows.Forms.TextBox();
+            passwordLabel = new System.Windows.Forms.Label();
+            PasswordInputBox = new System.Windows.Forms.TextBox();
 
-                credentials[0] = credentials[0].Remove(credentials[0].Length-1);//removes nextLine
-                credentials[1] = credentials[1].Remove(credentials[1].Length-1);
+            FirstNameLabel.AutoSize = true;
+            FirstNameLabel.Font = new System.Drawing.Font("Segoe MDL2 Assets", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            FirstNameLabel.ForeColor = System.Drawing.SystemColors.Control;
+            FirstNameLabel.Location = new System.Drawing.Point(17, 95);
+            FirstNameLabel.Name = "FirstNameLabel";
+            FirstNameLabel.TabIndex = 23;
+            FirstNameLabel.Text = "First Name";
+            FirstNameLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
 
-                if (Consumer.Login(credentials[0], credentials[1]))
-                {
-                    SaveData saved = new SaveData("users.txt");
-                    string[] information = saved.accessData(credentials[0], credentials[1]);
-                    string[] instanceInformation = information[0].Split('\u00BB');//instance information
-                    if (credentials[0] == "admin")
-                    {
-                        admin1 = new Admin(instanceInformation[2], instanceInformation[3]);
-                        admin();
-                    }
-                    else
-                    {
-                        person1 = new Consumer(instanceInformation[0], instanceInformation[1], instanceInformation[4], instanceInformation[2], instanceInformation[3]);//instance user
-                        postLogin();
-                    }
+            LastNameLabel.AutoSize = true;
+            LastNameLabel.Font = new System.Drawing.Font("Segoe MDL2 Assets", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            LastNameLabel.ForeColor = System.Drawing.SystemColors.Control;
+            LastNameLabel.Location = new System.Drawing.Point(17, 120);
+            LastNameLabel.Name = "LastNameLabel";
+            LastNameLabel.TabIndex = 24;
+            LastNameLabel.Text = "Last Name";
+            LastNameLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
 
-                }
-                else
-                { 
-                    OutBox.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-                    OutBox.Text += "First Name: " + Environment.NewLine + "Last Name: " + Environment.NewLine + "Birthdate(xx/xx/xxxx): " + Environment.NewLine + "Credit Card Number: " + Environment.NewLine + "CVV2: " + Environment.NewLine + "Expiration Date: "+Environment.NewLine;   
-                    Login.Text = "Create";
-                }
-            }
-            else
-            {
-                string log = OutBox.Text;
-                string[] userInfo;
-                userInfo = log.Split('\n');
-                userInfo[0] = userInfo[0].Remove(0, 7);//username
-                userInfo[0] = userInfo[0].Remove(userInfo[0].Length-1);
-                userInfo[1] = userInfo[1].Remove(0, 10);//password
-                userInfo[1] = userInfo[1].Remove(userInfo[1].Length - 1);
-                userInfo[2] = userInfo[2].Remove(0, 12);//first name
-                userInfo[2] = userInfo[2].Remove(userInfo[2].Length - 1);
-                userInfo[3] = userInfo[3].Remove(0, 11);//last name
-                userInfo[3] = userInfo[3].Remove(userInfo[3].Length - 1);
-                userInfo[4] = userInfo[4].Remove(0, 23);//birthdate
-                userInfo[4] = userInfo[4].Remove(userInfo[4].Length - 1);
-                userInfo[5] = userInfo[5].Remove(0, 20);//cc num
-                userInfo[5] = userInfo[5].Remove(userInfo[5].Length - 1);
-                userInfo[6] = userInfo[6].Remove(0, 6);//cvv2 num
-                userInfo[6] = userInfo[6].Remove(userInfo[6].Length - 1);
-                userInfo[7] = userInfo[7].Remove(0, 17);//experation date
-                userInfo[7] = userInfo[7].Remove(userInfo[7].Length - 1);
-                person1 = new Consumer(userInfo[0], userInfo[1], userInfo[4], userInfo[5], userInfo[6], Convert.ToDateTime(userInfo[7]), userInfo[2], userInfo[3]); //new instance
-                if (person1.UserCard.MakePayment(5.99))
-                {
-                    person1.addNewPerson();
-                    postLogin();
-                }
-            }
+            FNameInputBox.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            FNameInputBox.ForeColor = System.Drawing.Color.DarkBlue;
+            FNameInputBox.Location = new System.Drawing.Point(223, 95);
+            FNameInputBox.Multiline = true;
+            FNameInputBox.Name = "FNameInputBox";
+            FNameInputBox.Size = new System.Drawing.Size(147, 24);
+            FNameInputBox.TabIndex = 25;
+
+            LNameInputBox.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            LNameInputBox.ForeColor = System.Drawing.Color.DarkBlue;
+            LNameInputBox.Location = new System.Drawing.Point(223, 120);
+            LNameInputBox.Multiline = true;
+            LNameInputBox.Name = "LNameInputBox";
+            LNameInputBox.Size = new System.Drawing.Size(147, 24);
+            LNameInputBox.TabIndex = 26;
+
+            passwordLabel.AutoSize = true;
+            passwordLabel.Font = new System.Drawing.Font("Segoe MDL2 Assets", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            passwordLabel.ForeColor = System.Drawing.SystemColors.Control;
+            passwordLabel.Location = new System.Drawing.Point(17, 145);
+            passwordLabel.Name = "passwordLabel";
+            passwordLabel.TabIndex = 24;
+            passwordLabel.Text = "New Password";
+            passwordLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+
+            PasswordInputBox.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            PasswordInputBox.ForeColor = System.Drawing.Color.DarkBlue;
+            PasswordInputBox.Location = new System.Drawing.Point(223, 145);
+            PasswordInputBox.Multiline = true;
+            PasswordInputBox.Name = "PasswordInputBox";
+            PasswordInputBox.Size = new System.Drawing.Size(147, 24);
+            PasswordInputBox.TabIndex = 25;
+
+            Controls.Add(FirstNameLabel);
+            Controls.Add(LastNameLabel);
+            Controls.Add(FNameInputBox);
+            Controls.Add(LNameInputBox);
+            Controls.Add(passwordLabel);
+            Controls.Add(PasswordInputBox);
+        }
+        private void resetPasswordSetup()
+        {
+            changePasswordSetup();
+            ChangePasswordLink.Text = "Reset";
+
+            LoginLabel = new System.Windows.Forms.Label();
+            LoginInputBox = new System.Windows.Forms.TextBox();
+            BirthdateLabel = new System.Windows.Forms.Label();
+            BirthdateInputBox = new System.Windows.Forms.TextBox();
+
+            BirthdateLabel.AutoSize = true;
+            BirthdateLabel.Font = new System.Drawing.Font("Segoe MDL2 Assets", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            BirthdateLabel.ForeColor = System.Drawing.SystemColors.Control;
+            BirthdateLabel.Location = new System.Drawing.Point(17, 170);
+            BirthdateLabel.Name = "BirthdateLabel";
+            BirthdateLabel.TabIndex = 23;
+            BirthdateLabel.Text = "Birthdate (xx/xx/xx)";
+            BirthdateLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+
+            BirthdateInputBox.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            BirthdateInputBox.ForeColor = System.Drawing.Color.DarkBlue;
+            BirthdateInputBox.Location = new System.Drawing.Point(223, 170);
+            BirthdateInputBox.Multiline = true;
+            BirthdateInputBox.Name = "BirthdateInputBox";
+            BirthdateInputBox.Size = new System.Drawing.Size(147, 24);
+            BirthdateInputBox.TabIndex = 25;
+
+            LoginLabel.AutoSize = true;
+            LoginLabel.Font = new System.Drawing.Font("Segoe MDL2 Assets", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            LoginLabel.ForeColor = System.Drawing.SystemColors.Control;
+            LoginLabel.Location = new System.Drawing.Point(17, 70);
+            LoginLabel.Name = "LoginLabel";
+            LoginLabel.TabIndex = 23;
+            LoginLabel.Text = "Username";
+            LoginLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+
+            LoginInputBox.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            LoginInputBox.ForeColor = System.Drawing.Color.DarkBlue;
+            LoginInputBox.Location = new System.Drawing.Point(223, 70);
+            LoginInputBox.Multiline = true;
+            LoginInputBox.Name = "LoginInputBox";
+            LoginInputBox.Size = new System.Drawing.Size(147, 24);
+            LoginInputBox.TabIndex = 25;
+
+            Controls.Add(BirthdateLabel);
+            Controls.Add(BirthdateInputBox);
+            Controls.Add(LoginLabel);
+            Controls.Add(LoginInputBox);
         }
 
-        private void ChangePasswordLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            if(Users.Active)//if user clicked login
-            {
-                if (ChangePasswordLink.Text == "Change")
-                {
-                    string log = OutBox.Text;
-                    string[] credentials;
-                    credentials = log.Split('\n');
-                    credentials[0] = credentials[0].Remove(0, 12);//firstname
-                    credentials[1] = credentials[1].Remove(0, 11);//lastname
-                    credentials[2] = credentials[2].Remove(0, 14);//newpassword
-                    credentials[0] = credentials[0].Remove(credentials[0].Length - 1);
-                    credentials[1] = credentials[1].Remove(credentials[1].Length - 1);
-                    credentials[2] = credentials[2].Remove(credentials[2].Length - 1);
-
-                    if (Admin.Active) //if user is admin
-                    {
-                        if (admin1.ChangePassword(credentials[0], credentials[1], credentials[2]))
-                            OutBox.Text = "Done.";
-                    }
-                    else
-                    {
-                        if (person1.ChangePassword(credentials[0], credentials[1], credentials[2], person1.username))
-                            OutBox.Text = "Done.";
-                    }
-                    ChangePasswordLink.Text = "Change Password";
-                }
-                else
-                {
-                    ChangePasswordLink.Text = "Change";
-                    OutBox.Font = new System.Drawing.Font("Segoe MDL2 Assets", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-                    OutBox.Text = "First Name: " + Environment.NewLine + "Last Name: " + Environment.NewLine + "New Password: " + Environment.NewLine;
-                }
-            }
-            else
-            {
-                if (ChangePasswordLink.Text == "Reset")
-                {
-                    string log = OutBox.Text;
-                    string[] credentials;
-                    credentials = log.Split('\n');
-                    credentials[0] = credentials[0].Remove(0, 10);//username
-                    credentials[1] = credentials[1].Remove(0, 12);//firstname
-                    credentials[2] = credentials[2].Remove(0, 11);//lastname
-                    credentials[3] = credentials[3].Remove(0, 14);//newpassword
-                    credentials[4] = credentials[4].Remove(0, 11);//birthdate
-                    credentials[0] = credentials[0].Remove(credentials[0].Length - 1);
-                    credentials[1] = credentials[1].Remove(credentials[1].Length - 1);
-                    credentials[2] = credentials[2].Remove(credentials[2].Length - 1);
-                    credentials[3] = credentials[3].Remove(credentials[3].Length - 1);
-                    credentials[4] = credentials[4].Remove(credentials[4].Length - 1);
-                    if (Users.ChangePassword(credentials[0], credentials[1], credentials[2], credentials[3], Convert.ToDateTime(credentials[4])))
-                        OutBox.Text = "Done.";
-                    else
-                        MessageBox.Show("Could not verify credentials");
-                    ChangePasswordLink.Text = "Change Password";
-                }
-                else
-                {
-                    ChangePasswordLink.Text = "Reset";
-                    OutBox.Font = new System.Drawing.Font("Segoe MDL2 Assets", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-                    OutBox.Text = "Username: " + Environment.NewLine + "First Name: " + Environment.NewLine + "Last Name: " + Environment.NewLine + "New Password: " + Environment.NewLine + "Birthdate: " + Environment.NewLine;
-                }
-
-            }
-        }
-
-        private void infoButton_Click(object sender, EventArgs e)
-        {
-            string[] infoHelp = { "If you have a consistent miss, left or right, select the appropriate option, otherwise select \"Not Applicable\". If you are not sure or your misses are not  consistent select \"Not Applicable\".",
-            "If you have a consistent miss, short or long, select the appropriate option, otherwise select \"Not Applicable\". If you are not sure or your misses are not  consistent select \"Not Applicable\".",
-            "The dominate eye affects alignment, select the appropriate option, if you are not sure what your dominate eye is, select \"Right Hand, Right Eye\".",
-            "An arcing swing path is when the putter head arcs around the target line, straight back and straight through swing path is when the putter head stays square on the target line.",
-            "If you struggle with alignment to the hole, select the appropriate option. Putter shapes may help with alignment. ",
-            "The length is loosely based on height. Selcet the closet option.",
-            "Bending wrists causes extra putter head movement. This can happen by leading the stroke with the hands. Select the appropriate options, if you are not sure select \"Not Applicable\".",
-            "If you have a preference on grips, select the appropriate option. If you are not sure select \"Not Applicable\".",
-            "Softer feeling putters will have less feedback, harder feeling putters will have more feedback. If you are not sure select \"Not Applicable\"."};
-            if (counter >0)
-                MessageBox.Show(listNames[counter] + Environment.NewLine + infoHelp[counter]);
-            else
-                MessageBox.Show("Common Left to Right Miss" + Environment.NewLine + infoHelp[counter]);
-        }
     }
-    
+
 }

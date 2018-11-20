@@ -68,7 +68,7 @@ namespace PutterFitting
                         matching[a] = matching[a].Replace('\u00BB', '|');
                         combined.Add(matching[a]);
                 }
-                if (matching.Length == 1 && !matching[0].Contains(data[i]))
+                if (matching.Length == 1 && !matching[0].Contains(data[i]))//could use the verify function, but that will not be as efficient
                     combined[i] = " ";
             }
             

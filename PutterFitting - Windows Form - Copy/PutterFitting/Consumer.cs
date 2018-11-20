@@ -19,13 +19,16 @@ namespace PutterFitting //removed save data //add remove person? added start fit
              _username = username;
              _password = password;
              _Birthdate = Convert.ToDateTime(birtdate);
-             UserCard = new CreditCard(CrediCardNumber, cvv2, expirationDate);
+             _UserCard = new CreditCard(CrediCardNumber, cvv2, expirationDate);
         }
         string _username; //not in superclass, because admin has set username, and password
 		string _password;
 		string _Handicap;
         public Algorithm fit;
-        public CreditCard UserCard;
+        CreditCard _UserCard;
+        private static SaveData save = new SaveData("users.txt");//called without instance of user for login
+        public bool payed = false;
+
         public string username
         {
             get { return _username; }
@@ -36,35 +39,53 @@ namespace PutterFitting //removed save data //add remove person? added start fit
             get { return _password; }
             private set { _password = value; }
         }
+        public string Handicap
+        {
+            get { return _Handicap; }
+            set { _Handicap = value; }
+        }
         public static bool Login(string username, string password) //static so that a instance is not necessary to check if user login exists
         {
-            SaveData save = new SaveData("users.txt");//called without instance of user
             return save.verify(username, password);
         }
-		public bool addNewPerson(string handicap = null)//not static, allow for a new instance ot be created to save
-		{
-            if (handicap != null)
+        public bool addNewPerson(string handicap = null)//not static, allow for a new instance ot be created to save
+        {
+            if (!UserSave.verify(username))//if username does not exist then it will continue
             {
-                _Handicap = handicap;
-                return UserSave.save(username, password, _Fname, _Lname, _Birthdate.ToShortDateString(), handicap);
+                if (_UserCard.MakePayment(5.99))
+                {
+                    if (handicap != null)
+                    {
+                        _Handicap = handicap;
+                        return UserSave.save(username, password, _Fname, _Lname, _Birthdate.ToShortDateString(), handicap);//UserSave is inherted from users
+                    }
+                    else
+                        return UserSave.save(username, password, _Fname, _Lname, _Birthdate.ToShortDateString());
+                }
+                return false;
             }
             else
-                return UserSave.save(username, password, _Fname, _Lname, _Birthdate.ToShortDateString());
+            {
+                MessageBox.Show("Username Exists");
+                return false;
+            }
+        }
+        private bool addNewPerson(bool makeNew)//the user logs in, they dont have a cc active, this overloads the first one that makes a payment
+        {
+            return UserSave.save(username, password, _Fname, _Lname, _Birthdate.ToShortDateString());
         }
         public string[] startFit(string[] UserData, int[] UserImportance)
         {
             fit = new Algorithm(UserData, UserImportance);
             string[] results = fit.FindPutter();
-            //MessageBox.Show(fit.putter.PutterLength);
-            return results;//also should only keep name, and add lenght and grip
+            return results;
         }
         public override bool ChangePassword(string firstName, string lastName, string newPassword, string username)
         {
             if (base.ChangePassword(username, firstName, lastName))
             {
                 password = newPassword;
-                addNewPerson();
-                return true;
+                return addNewPerson(true);
             }
             else
             {

@@ -28,25 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.OutBox = new System.Windows.Forms.TextBox();
             this.PutterTitle = new System.Windows.Forms.Label();
             this.optionsTitle = new System.Windows.Forms.Label();
             this.importanceTitle = new System.Windows.Forms.Label();
-            this.Login = new System.Windows.Forms.Button();
             this.ChangePasswordLink = new System.Windows.Forms.LinkLabel();
             this.SuspendLayout();
-            // 
-            // OutBox
-            // 
-            this.OutBox.Font = new System.Drawing.Font("Tahoma", 16.125F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.OutBox.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.OutBox.Location = new System.Drawing.Point(49, 137);
-            this.OutBox.Multiline = true;
-            this.OutBox.Name = "OutBox";
-            this.OutBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.OutBox.Size = new System.Drawing.Size(1233, 219);
-            this.OutBox.TabIndex = 0;
-            this.OutBox.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // PutterTitle
             // 
@@ -76,18 +62,6 @@
             this.importanceTitle.Size = new System.Drawing.Size(0, 25);
             this.importanceTitle.TabIndex = 20;
             // 
-            // Login
-            // 
-            this.Login.Font = new System.Drawing.Font("Tahoma", 10.125F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Login.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.Login.Location = new System.Drawing.Point(1119, 287);
-            this.Login.Name = "Login";
-            this.Login.Size = new System.Drawing.Size(163, 69);
-            this.Login.TabIndex = 21;
-            this.Login.Text = "Login";
-            this.Login.UseVisualStyleBackColor = true;
-            this.Login.Click += new System.EventHandler(this.Login_Click);
-            // 
             // ChangePasswordLink
             // 
             this.ChangePasswordLink.AutoSize = true;
@@ -108,11 +82,9 @@
             this.BackColor = System.Drawing.Color.MidnightBlue;
             this.ClientSize = new System.Drawing.Size(1328, 694);
             this.Controls.Add(this.ChangePasswordLink);
-            this.Controls.Add(this.Login);
             this.Controls.Add(this.importanceTitle);
             this.Controls.Add(this.optionsTitle);
             this.Controls.Add(this.PutterTitle);
-            this.Controls.Add(this.OutBox);
             this.Cursor = System.Windows.Forms.Cursors.Cross;
             this.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.MaximizeBox = false;
@@ -126,14 +98,22 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.TextBox OutBox;
         private System.Windows.Forms.Label PutterTitle;
         private System.Windows.Forms.Label optionsTitle;
         private System.Windows.Forms.Label importanceTitle;
-        private System.Windows.Forms.Button Login;
         private System.Windows.Forms.LinkLabel ChangePasswordLink;
-
     }
 }
-
+/*
+            private System.Windows.Forms.TextBox OutBox;
+            this.OutBox = new System.Windows.Forms.TextBox();
+            this.OutBox.Font = new System.Drawing.Font("Tahoma", 16.125F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.OutBox.ForeColor = System.Drawing.Color.MidnightBlue;
+            this.OutBox.Location = new System.Drawing.Point(49, 137);
+            this.OutBox.Multiline = true;
+            this.OutBox.Name = "OutBox";
+            this.OutBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.OutBox.Size = new System.Drawing.Size(1233, 219);
+            this.OutBox.TabIndex = 0;
+            this.OutBox.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+ */
