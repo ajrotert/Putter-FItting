@@ -13,8 +13,8 @@ namespace PutterFitting //changed the change pasword params to have poly, added 
 
     public class Users
 	{
-        protected string _Fname;
-        protected string _Lname;
+        protected internal string _Fname;
+        protected internal string _Lname;
 		protected DateTime _Birthdate;
         public static bool Active = false;
         public SaveData UserSave = new SaveData("users.txt");

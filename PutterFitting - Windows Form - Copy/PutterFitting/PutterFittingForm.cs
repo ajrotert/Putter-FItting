@@ -11,48 +11,22 @@ namespace PutterFitting//added admin function, start, postlogin
 {
     public partial class PutterFittingSoftware : Form
     {
-        private System.Windows.Forms.TextBox OutBox;
-        private System.Windows.Forms.ListBox optionsList;
-        private System.Windows.Forms.TextBox importanceBox;
-        private System.Windows.Forms.Label oneToFiveLabel;
-        private System.Windows.Forms.Button NextButton;
-        private System.Windows.Forms.Button manageButton;
-        private System.Windows.Forms.Button viewAllButton;
-        private System.Windows.Forms.Button infoButton;
-        private System.Windows.Forms.Label FirstNameLabel;
-        private System.Windows.Forms.Label LastNameLabel;
-        private System.Windows.Forms.TextBox FNameInputBox;
-        private System.Windows.Forms.TextBox LNameInputBox;
-        private System.Windows.Forms.Label BirthdateLabel;
-        private System.Windows.Forms.Label CreditCardLabel;
-        private System.Windows.Forms.TextBox BirthdateInputBox;
-        private System.Windows.Forms.TextBox CreditCardInputBox;
-        private System.Windows.Forms.Label CVV2Label;
-        private System.Windows.Forms.Label ExpirationLabel;
-        private System.Windows.Forms.TextBox CVV2InputBox;
-        private System.Windows.Forms.TextBox ExpirationInputBox;
-        private System.Windows.Forms.Button Login;
-        private System.Windows.Forms.Label LoginLabel;
-        private System.Windows.Forms.Label passwordLabel;
-        private System.Windows.Forms.TextBox LoginInputBox;
-        private System.Windows.Forms.TextBox PasswordInputBox;
-
-        public string[] data = new string[9];
-        public int[] importance = new int[9];
-        Consumer person1;
-        Admin admin1;
-        public string[] putter = new string[5];
+        public string[] data = new string[9];       //Used to store data selected from the user
+        public int[] importance = new int[9];       //Used to store the importance data from the user
+        Consumer person1;                           //Creates person var, initialized durning the login fucntions
+        Admin admin1;                               //Only initialized if the username is admin
+        public string[] putter = new string[5];     //Used in the manage function to store putter traits
         public string[,] putterList = new string[5, 4]
-        {
+        {                                           //Used in the manage function to display options
             { "Normal Putter Head", "Wide Putter Head", "", "" },
             { "Toe Weighted", "Face Balanced", "", "" },
             { "Offset Shaft", "Straight Shaft", "", "" },
             { "Lighter Weight", "Heavier Weight", "Standard Weight", "" },
             { "Softer Feel", "Harder Feel", "", "" }
         };
-        public int putterCounter = 0;
+        public int putterCounter = 0;               //Used in manage function to track which trait
         public string[,] listItems = new string[9, 4] {
-        {"", "", "", "" },
+        {"", "", "", "" },                          //Used in the fitting functions to display options
         {"Long", "Short", "Not Applicable", ""},
         {"Right Handed, Right Eye", "Right Handed, Left Eye", "Left Handed, Left Eye", "Left Handed, Right Eye"},
         {"Arcing Path", "Straight Back Straight Through", "", ""},
@@ -62,7 +36,7 @@ namespace PutterFitting//added admin function, start, postlogin
         {"Standard Size Grip", "Larger Grip", "Not Applicable", ""},
         {"Softer Feel", "Harder Feel", "Not Applicable", ""} };
         public string[] listNames = new string[9] {
-        "",
+        "",                                         //Used to display titles for the fitting functions
         "Common Distance Miss",
         "Dominant Eye",
         "Swing Path",
@@ -71,7 +45,7 @@ namespace PutterFitting//added admin function, start, postlogin
         "Putter Head Movement",
         "Grip Perefrence",
         "Feel"};
-        public int counter = 0;
+        public int counter = 0;                     //Track the display options for fitting
         public PutterFittingSoftware()
         {
             InitializeComponent();
@@ -85,16 +59,19 @@ namespace PutterFitting//added admin function, start, postlogin
         {
             data[counter] = optionsList.Text;
             importance[counter] = Convert.ToInt32(importanceBox.Text);
-            optionsList.Items.Clear();
-            counter++;
-            if (counter == 9)
-                start();
-            else
+            if (data[counter] != "" && importance[counter] > 0 && importance[counter]<=5)
             {
-                optionsTitle.Text = listNames[counter];
-                for (int a = 0; a < 4; a++)
-                    optionsList.Items.Add(listItems[counter, a]);
-                importanceBox.Text = "5";
+                optionsList.Items.Clear();
+                counter++;
+                if (counter == 9) //ends the data collection, starts the putter search
+                    start();
+                else              //Continues the data collection, changes the options for the user to select
+                {
+                    optionsTitle.Text = listNames[counter];
+                    for (int a = 0; a < 4; a++)
+                        optionsList.Items.Add(listItems[counter, a]);
+                    importanceBox.Text = "5";
+                }
             }
         }
 
@@ -102,6 +79,7 @@ namespace PutterFitting//added admin function, start, postlogin
         {
             string[] results = person1.startFit(data, importance);
             resultsSetup();
+            OutBox.Text += " ( " + results.Length + " )" + Environment.NewLine + Environment.NewLine;
             for (int a = 0; a < results.Length; a++)
                 OutBox.Text += results[a] + Environment.NewLine;
             OutBox.Text += Environment.NewLine + "Length: " + person1.fit.putter.PutterLength + " Grip: " + person1.fit.putter.PutterGrip;
@@ -119,6 +97,7 @@ namespace PutterFitting//added admin function, start, postlogin
                     results = admin1.viewPutter();
                 else
                     results = admin1.viewPutter(search);
+                OutBox.Text += "\t\t\tResults: " + results.Length;
                 for (int a = 0; a < results.Length; a++)
                     optionsList.Items.Add(results[a]);
                 viewAllButton.Text = "Remove / Restart";
@@ -194,7 +173,10 @@ namespace PutterFitting//added admin function, start, postlogin
                     }
                     else
                     {
-                        person1 = new Consumer(instanceInformation[0], instanceInformation[1], instanceInformation[4], instanceInformation[2], instanceInformation[3]);//instance user
+                        if(instanceInformation.Length == 7)
+                            person1 = new Consumer(instanceInformation[0], instanceInformation[1], instanceInformation[4], instanceInformation[2], instanceInformation[3], instanceInformation[5]);//instance with handicap
+                        else
+                            person1 = new Consumer(instanceInformation[0], instanceInformation[1], instanceInformation[4], instanceInformation[2], instanceInformation[3]);//instance user
                         fittingSetup();
                     }
                 }
@@ -220,8 +202,16 @@ namespace PutterFitting//added admin function, start, postlogin
                 else
                 {
                     person1 = new Consumer(username, password, birthdate, creditcardnumber, cvv2, Convert.ToDateTime(expiration), fname, lname); //new instance
-                    if (person1.addNewPerson())
-                        fittingSetup();
+                    if (HandicapInputBox.Text != "")
+                    {
+                        if (person1.addNewPerson(HandicapInputBox.Text))
+                            fittingSetup();
+                    }
+                    else
+                    {
+                        if (person1.addNewPerson())
+                            fittingSetup();
+                    }
                 }
              }
         }
@@ -283,6 +273,13 @@ namespace PutterFitting//added admin function, start, postlogin
             else
                 MessageBox.Show("Common Left to Right Miss" + Environment.NewLine + infoHelp[counter]);
         }
+        private void info2Button_Click(object sender, EventArgs e)
+        {
+            if(Algorithm.relativeImportance[counter] == 0)
+                MessageBox.Show("Recommended Importance Level: 1");
+            else
+                MessageBox.Show("Recommended Importance Level: " + Algorithm.relativeImportance[counter]);
+        }
 
         private void loginSetup()
         {
@@ -311,7 +308,6 @@ namespace PutterFitting//added admin function, start, postlogin
             LoginLabel.ForeColor = System.Drawing.SystemColors.Control;
             LoginLabel.Location = new System.Drawing.Point(17, 69);
             LoginLabel.Name = "LoginLabel";
-            //LoginLabel.Size = new System.Drawing.Size(222, 96);
             LoginLabel.TabIndex = 23;
             LoginLabel.Text = "Login";
             LoginLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -361,6 +357,8 @@ namespace PutterFitting//added admin function, start, postlogin
             ExpirationLabel = new System.Windows.Forms.Label();
             CVV2InputBox = new System.Windows.Forms.TextBox();
             ExpirationInputBox = new System.Windows.Forms.TextBox();
+            HandicapLabel = new System.Windows.Forms.Label();
+            HandicapInputBox = new System.Windows.Forms.TextBox();
 
             LoginLabel.Font = new System.Drawing.Font("Segoe MDL2 Assets", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             passwordLabel.Font = new System.Drawing.Font("Segoe MDL2 Assets", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -372,12 +370,29 @@ namespace PutterFitting//added admin function, start, postlogin
             PasswordInputBox.Location = new System.Drawing.Point(224, 95);
             Login.Location = new System.Drawing.Point(560, 300);
 
+
+            HandicapLabel.AutoSize = true;
+            HandicapLabel.Font = new System.Drawing.Font("Segoe MDL2 Assets", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            HandicapLabel.ForeColor = System.Drawing.SystemColors.Control;
+            HandicapLabel.Location = new System.Drawing.Point(17, 135);
+            HandicapLabel.Name = "HandicapLabel";
+            HandicapLabel.TabIndex = 24;
+            HandicapLabel.Text = "Handicap (Optional)";
+            HandicapLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+
+            HandicapInputBox.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            HandicapInputBox.ForeColor = System.Drawing.Color.DarkBlue;
+            HandicapInputBox.Location = new System.Drawing.Point(223, 135);
+            HandicapInputBox.Multiline = true;
+            HandicapInputBox.Name = "HandicapInputBox";
+            HandicapInputBox.Size = new System.Drawing.Size(147, 24);
+            HandicapInputBox.TabIndex = 25;
+
             FirstNameLabel.AutoSize = true;
             FirstNameLabel.Font = new System.Drawing.Font("Segoe MDL2 Assets", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             FirstNameLabel.ForeColor = System.Drawing.SystemColors.Control;
             FirstNameLabel.Location = new System.Drawing.Point(17, 175);
             FirstNameLabel.Name = "FirstNameLabel";
-            //FirstNameLabel.Size = new System.Drawing.Size(222, 96);
             FirstNameLabel.TabIndex = 23;
             FirstNameLabel.Text = "First Name";
             FirstNameLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -387,7 +402,6 @@ namespace PutterFitting//added admin function, start, postlogin
             LastNameLabel.ForeColor = System.Drawing.SystemColors.Control;
             LastNameLabel.Location = new System.Drawing.Point(17, 200);
             LastNameLabel.Name = "LastNameLabel";
-            //LastNameLabel.Size = new System.Drawing.Size(364, 96);
             LastNameLabel.TabIndex = 24;
             LastNameLabel.Text = "Last Name";
             LastNameLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -459,7 +473,6 @@ namespace PutterFitting//added admin function, start, postlogin
             ExpirationLabel.ForeColor = System.Drawing.SystemColors.Control;
             ExpirationLabel.Location = new System.Drawing.Point(17, 300);
             ExpirationLabel.Name = "ExpirationLabel";
-            //ExpirationLabel.Size = new System.Drawing.Size(364, 96);
             ExpirationLabel.TabIndex = 24;
             ExpirationLabel.Text = "Expiration (xx/xx/xx)";
             ExpirationLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -491,6 +504,8 @@ namespace PutterFitting//added admin function, start, postlogin
             Controls.Add(ExpirationLabel);
             Controls.Add(CVV2InputBox);
             Controls.Add(ExpirationInputBox);
+            Controls.Add(HandicapLabel);
+            Controls.Add(HandicapInputBox);
             Login.Text = "Create";
         }
         private void adminSetup()
@@ -552,20 +567,36 @@ namespace PutterFitting//added admin function, start, postlogin
             oneToFiveLabel = new System.Windows.Forms.Label();
             NextButton = new System.Windows.Forms.Button();
             infoButton = new System.Windows.Forms.Button();
+            info2Button = new System.Windows.Forms.Button();
+            LoginLabel = new System.Windows.Forms.Label();
+            HandicapLabel = new System.Windows.Forms.Label();
 
-            // 
-            // optionsTitle
-            // 
+            LoginLabel.AutoSize = true;
+            LoginLabel.Font = new System.Drawing.Font("Segoe MDL2 Assets", 36F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            LoginLabel.ForeColor = System.Drawing.SystemColors.Control;
+            LoginLabel.Location = new System.Drawing.Point(17, 69);
+            LoginLabel.Name = "LoginLabel";
+            LoginLabel.TabIndex = 23;
+            LoginLabel.Text = "Name: " + person1._Lname + ", " + person1._Fname;
+            LoginLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+
+            HandicapLabel.AutoSize = true;
+            HandicapLabel.Font = new System.Drawing.Font("Segoe MDL2 Assets", 36F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            HandicapLabel.ForeColor = System.Drawing.SystemColors.Control;
+            HandicapLabel.Location = new System.Drawing.Point(17, 110);
+            HandicapLabel.Name = "HandicapLabel";
+            HandicapLabel.TabIndex = 23;
+            HandicapLabel.Text = "Handicap: " + person1.Handicap;
+            HandicapLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+
             optionsTitle.AutoSize = true;
             optionsTitle.Font = new System.Drawing.Font("Segoe MDL2 Assets", 10.125F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            optionsTitle.Location = new System.Drawing.Point(120, 200); // 442, 393
+            optionsTitle.Location = new System.Drawing.Point(120, 170); // 442, 393
             optionsTitle.Name = "optionsTitle";
             optionsTitle.Size = new System.Drawing.Size(193, 27);
             optionsTitle.TabIndex = 2;
             optionsTitle.Text = "Common L-R Miss";
-            // 
-            // optionsList
-            // 
+           
             optionsList.Font = new System.Drawing.Font("Segoe MDL2 Assets", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             optionsList.FormattingEnabled = true;
             optionsList.ItemHeight = 25;
@@ -573,61 +604,51 @@ namespace PutterFitting//added admin function, start, postlogin
             "Left",
             "Right",
             "Not Applicable",
-            " "});
-            optionsList.Location = new System.Drawing.Point(120, 230);
+            ""});
+            optionsList.Location = new System.Drawing.Point(120, 200);
             optionsList.Name = "optionsList";
             optionsList.Size = new System.Drawing.Size(306, 104);
             optionsList.TabIndex = 3;
-            // 
-            // importanceBox
-            // 
+            
             importanceBox.Font = new System.Drawing.Font("Microsoft Tai Le", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            importanceBox.Location = new System.Drawing.Point(483, 240);
+            importanceBox.Location = new System.Drawing.Point(483, 210);
             importanceBox.Multiline = true;
             importanceBox.Name = "importanceBox";
             importanceBox.Size = new System.Drawing.Size(58, 54);
             importanceBox.TabIndex = 14;
             importanceBox.Text = "5";
             importanceBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // importanceTitle
-            // 
+             
             importanceTitle.AutoSize = true;
             importanceTitle.Font = new System.Drawing.Font("Segoe MDL2 Assets", 10.125F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            importanceTitle.Location = new System.Drawing.Point(455, 200);
+            importanceTitle.Location = new System.Drawing.Point(455, 170);
             importanceTitle.Name = "importanceTitle";
             importanceTitle.Size = new System.Drawing.Size(176, 25);
             importanceTitle.TabIndex = 20;
             importanceTitle.Text = "Importance Level";
-            // 
-            // oneToFiveLabel
-            // 
+              
             oneToFiveLabel.AutoSize = true;
             oneToFiveLabel.Font = new System.Drawing.Font("Segoe MDL2 Assets", 10.125F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            oneToFiveLabel.Location = new System.Drawing.Point(495, 300);
+            oneToFiveLabel.Location = new System.Drawing.Point(495, 270);
             oneToFiveLabel.Name = "oneToFiveLabel";
             oneToFiveLabel.Size = new System.Drawing.Size(57, 25);
             oneToFiveLabel.TabIndex = 21;
             oneToFiveLabel.Text = "(1-5)";
-            // 
-            // NextButton
-            // 
+            
             NextButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             NextButton.ForeColor = System.Drawing.Color.MidnightBlue;
-            NextButton.Location = new System.Drawing.Point(120, 340);
+            NextButton.Location = new System.Drawing.Point(120, 310);
             NextButton.Name = "NextButton";
             NextButton.Size = new System.Drawing.Size(422, 64);
             NextButton.TabIndex = 22;
             NextButton.Text = "Next";
             NextButton.UseVisualStyleBackColor = true;
             NextButton.Click += new System.EventHandler(this.NextButton_Click);
-            // 
-            // infoButton
-            // 
+            
             infoButton.Font = new System.Drawing.Font("Segoe MDL2 Assets", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             infoButton.ForeColor = System.Drawing.Color.MidnightBlue;
             infoButton.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            infoButton.Location = new System.Drawing.Point(75, 230);
+            infoButton.Location = new System.Drawing.Point(75, 200);
             infoButton.Name = "infoButton";
             infoButton.Size = new System.Drawing.Size(37, 90);
             infoButton.TabIndex = 23;
@@ -636,12 +657,28 @@ namespace PutterFitting//added admin function, start, postlogin
             infoButton.UseVisualStyleBackColor = true;
             infoButton.Click += new System.EventHandler(this.infoButton_Click);
 
+            info2Button.Font = new System.Drawing.Font("Segoe MDL2 Assets", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            info2Button.ForeColor = System.Drawing.Color.MidnightBlue;
+            info2Button.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            info2Button.Location = new System.Drawing.Point(550, 200);
+            info2Button.Name = "info2Button";
+            info2Button.Size = new System.Drawing.Size(37, 90);
+            info2Button.TabIndex = 23;
+            info2Button.Text = "?";
+            info2Button.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            info2Button.UseVisualStyleBackColor = true;
+            info2Button.Click += new System.EventHandler(this.info2Button_Click);
+
             Controls.Add(optionsList);
             Controls.Add(importanceBox);
             Controls.Add(importanceTitle);
             Controls.Add(oneToFiveLabel);
             Controls.Add(NextButton);
             Controls.Add(infoButton);
+            Controls.Add(info2Button);
+            Controls.Add(LoginLabel);
+            Controls.Add(HandicapLabel);
+
         }
         private void newPutterSetup()
         {
@@ -695,7 +732,7 @@ namespace PutterFitting//added admin function, start, postlogin
             OutBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             OutBox.TabIndex = 0;
             Controls.Add(OutBox);
-            OutBox.Text = "Best Fitting Putters: " + Environment.NewLine;
+            OutBox.Text = "Best Fitting Putters: ";
         }
         private void changePasswordSetup()
         {
@@ -818,6 +855,34 @@ namespace PutterFitting//added admin function, start, postlogin
             Controls.Add(LoginInputBox);
         }
 
+        private System.Windows.Forms.TextBox OutBox;
+        private System.Windows.Forms.ListBox optionsList;
+        private System.Windows.Forms.TextBox importanceBox;
+        private System.Windows.Forms.Label oneToFiveLabel;
+        private System.Windows.Forms.Button NextButton;
+        private System.Windows.Forms.Button manageButton;
+        private System.Windows.Forms.Button viewAllButton;
+        private System.Windows.Forms.Button infoButton;
+        private System.Windows.Forms.Label FirstNameLabel;
+        private System.Windows.Forms.Label LastNameLabel;
+        private System.Windows.Forms.TextBox FNameInputBox;
+        private System.Windows.Forms.TextBox LNameInputBox;
+        private System.Windows.Forms.Label BirthdateLabel;
+        private System.Windows.Forms.Label CreditCardLabel;
+        private System.Windows.Forms.TextBox BirthdateInputBox;
+        private System.Windows.Forms.TextBox CreditCardInputBox;
+        private System.Windows.Forms.Label CVV2Label;
+        private System.Windows.Forms.Label ExpirationLabel;
+        private System.Windows.Forms.TextBox CVV2InputBox;
+        private System.Windows.Forms.TextBox ExpirationInputBox;
+        private System.Windows.Forms.Button Login;
+        private System.Windows.Forms.Label LoginLabel;
+        private System.Windows.Forms.Label passwordLabel;
+        private System.Windows.Forms.TextBox LoginInputBox;
+        private System.Windows.Forms.TextBox PasswordInputBox;
+        private System.Windows.Forms.Button info2Button;
+        private System.Windows.Forms.TextBox HandicapInputBox;
+        private System.Windows.Forms.Label HandicapLabel;
     }
 
 }

@@ -13,6 +13,14 @@ namespace PutterFitting //removed save data //add remove person? added start fit
             _username = username;
             _password = password;
             _Birthdate = Convert.ToDateTime(birtdate);
+            _Handicap = "(None)";
+        }
+        public Consumer(string username, string password, string birtdate, string Fname, string Lname, string handicap) : base(Fname, Lname)
+        {
+            _username = username;
+            _password = password;
+            _Birthdate = Convert.ToDateTime(birtdate);
+            _Handicap = handicap;
         }
         public Consumer(string username, string password, string birtdate, string CrediCardNumber, string cvv2, DateTime expirationDate, string Fname, string Lname) : base(Fname, Lname)
         {
@@ -27,7 +35,6 @@ namespace PutterFitting //removed save data //add remove person? added start fit
         public Algorithm fit;
         CreditCard _UserCard;
         private static SaveData save = new SaveData("users.txt");//called without instance of user for login
-        public bool payed = false;
 
         public string username
         {
@@ -42,7 +49,7 @@ namespace PutterFitting //removed save data //add remove person? added start fit
         public string Handicap
         {
             get { return _Handicap; }
-            set { _Handicap = value; }
+            private set { _Handicap = value; }
         }
         public static bool Login(string username, string password) //static so that a instance is not necessary to check if user login exists
         {
@@ -56,7 +63,7 @@ namespace PutterFitting //removed save data //add remove person? added start fit
                 {
                     if (handicap != null)
                     {
-                        _Handicap = handicap;
+                        Handicap = handicap;
                         return UserSave.save(username, password, _Fname, _Lname, _Birthdate.ToShortDateString(), handicap);//UserSave is inherted from users
                     }
                     else

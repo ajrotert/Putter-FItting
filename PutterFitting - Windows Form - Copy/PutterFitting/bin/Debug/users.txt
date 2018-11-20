@@ -1,12 +1,4 @@
-test1»user»mark»Rotert»12/12/2012»
-test12»ste»mark»r»12/12/2012»
-test123»123»mark»rot»12/12/2012»
-testuser»new»person1»last»12/12/2006»
-test122»user»person2»person»11/11/2011»
-test»abc123»Mark»Rotert»12/17/1998»
 admin»admin»Andrew»Rotert»
-newperson»abc123»person3»person»12/12/2012»
-newperson2»no»...»...»12/12/2012»
-testuser2»newuser»person123»person»12/12/2012»
-andrew»password1»Andrew»Rotert»12/17/1998»
-name»pass»John»Doe»1/1/2001»
+putter1»putter1»Mark»Rotert»12/17/1998»120»
+andrew»password»Andrew»Rotert»12/17/1998»12»
+user1»abc123»Person»Johnson»1/1/1968»21»
