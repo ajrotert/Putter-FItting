@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
 
-namespace PutterFitting //changed the change pasword params to have poly, added active, and birtdate
+namespace PutterFitting
 {
     public struct node
     {

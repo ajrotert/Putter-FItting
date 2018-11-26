@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
-namespace PutterFitting       //changed relativeImportance to public static, changed find arr val to private, added const int heap size
+namespace PutterFitting
 {
-    public class Algorithm
-	    {
+    public class Algorithm : Iputter //implements traits for ideal putter
+    {
             public Algorithm(string[] data, int[] userImportance)
             {
                 _data = data;
@@ -19,6 +19,27 @@ namespace PutterFitting       //changed relativeImportance to public static, cha
             private int last = -1;
             node[] heap = new node[HEAP_SIZE];
             public PutterData putter;
+            private node temp; //used for the length and grip
+            private node _putterShape;
+            private node _putterBalance;
+            private node _putterHosel;
+            private node _putterWeight;
+            private node _putterFeel;
+
+            //Iputter Interface implementation
+            public string putterShape { get; set; }
+            public string putterBalance { get; set; }
+            public string putterHosel { get; set; }
+            public string putterWeight { get; set; }
+            public string putterFeel { get; set; }
+            public void setCharacteristic(params string[] data)
+            {
+                putterShape = _putterShape.putterTrait;
+                putterBalance = _putterBalance.putterTrait;
+                putterHosel = _putterHosel.putterTrait;
+                putterWeight = _putterWeight.putterTrait;
+                putterFeel = _putterFeel.putterTrait;
+            }
 
             private void FindArrVal()
     		{
@@ -51,87 +72,86 @@ namespace PutterFitting       //changed relativeImportance to public static, cha
                     reheapUp(heap, last);
                 }
             }
-            public string[] FindPutter()//node[] original idea to return heap, not necessary by calling the putterdata class
+            public string[] FindPutter()
             {
                 FindArrVal();
-                node temp;
                 //Alignment - 2
                 if(_data[4] == "Struggles with Alignment")
                 {
-                    temp.importance = relativeImportance[4];
-                    temp.putterTrait = "Wide Putter Head";
-                    insertHeap(heap, ref last, temp);
+                    _putterShape.importance = relativeImportance[4];
+                    _putterShape.putterTrait = "Wide Putter Head";
+                    insertHeap(heap, ref last, _putterShape);
                 }
                 else
                 {
-                    temp.importance = relativeImportance[4];
-                    temp.putterTrait = "Normal Putter Head";
-                    insertHeap(heap, ref last, temp);
+                    _putterShape.importance = relativeImportance[4];
+                    _putterShape.putterTrait = "Normal Putter Head";
+                    insertHeap(heap, ref last, _putterShape);
                 }
 
                 //Toe Hang vs Face Balanced Checks - 4
                 if ((_data[0] == "Left" && _data[3] == "Arcing Path" )|| ( _data[0] == "Not Applicable" && _data[3] == "Arcing Path"))
                 {
                     if (relativeImportance[0] > relativeImportance[3])
-                        temp.importance = relativeImportance[0];
+                        _putterBalance.importance = relativeImportance[0];
                     else
-                        temp.importance = relativeImportance[3];
-                    temp.putterTrait = "Toe Weighted";
-                    insertHeap(heap, ref last, temp);
+                        _putterBalance.importance = relativeImportance[3];
+                    _putterBalance.putterTrait = "Toe Weighted";
+                    insertHeap(heap, ref last, _putterBalance);
                 }
                 else if (_data[0] == "Right" && _data[3] == "Arcing Path")
                 {
                     if (relativeImportance[0] > relativeImportance[3])
                     {
-                        temp.importance = relativeImportance[0];
-                        temp.putterTrait = "Face Balanced";
-                        insertHeap(heap, ref last, temp);
+                        _putterBalance.importance = relativeImportance[0];
+                        _putterBalance.putterTrait = "Face Balanced";
+                        insertHeap(heap, ref last, _putterBalance);
                     }
                     else
                     {
-                        temp.importance = relativeImportance[3];
-                        temp.putterTrait = "Toe Weighted";
-                        insertHeap(heap, ref last, temp);
+                        _putterBalance.importance = relativeImportance[3];
+                        _putterBalance.putterTrait = "Toe Weighted";
+                        insertHeap(heap, ref last, _putterBalance);
                     }
 
                 }
                 else if ((_data[0] == "Right" && _data[3] == "Straight Back Straight Through")|| (_data[0] == "Not Applicable" && _data[3] == "Straight Back Straight Through"))
                 {
                     if (relativeImportance[0] > relativeImportance[3])
-                        temp.importance = relativeImportance[0];
+                        _putterBalance.importance = relativeImportance[0];
                     else
-                        temp.importance = relativeImportance[3];
-                    temp.putterTrait = "Face Balanced";
-                    insertHeap(heap, ref last, temp);
+                        _putterBalance.importance = relativeImportance[3];
+                    _putterBalance.putterTrait = "Face Balanced";
+                    insertHeap(heap, ref last, _putterBalance);
                 }
                 else if (_data[0] == "Left" && _data[3] == "Straight Back Straight Through")
                 {
                     if (relativeImportance[0] > relativeImportance[3])
                     {
-                        temp.importance = relativeImportance[0];
-                        temp.putterTrait = "Toe Weighted";
-                        insertHeap(heap, ref last, temp);
+                        _putterBalance.importance = relativeImportance[0];
+                        _putterBalance.putterTrait = "Toe Weighted";
+                        insertHeap(heap, ref last, _putterBalance);
                     }
                     else
                     {
-                        temp.importance = relativeImportance[3];
-                        temp.putterTrait = "Face Balanced";
-                        insertHeap(heap, ref last, temp);
+                        _putterBalance.importance = relativeImportance[3];
+                        _putterBalance.putterTrait = "Face Balanced";
+                        insertHeap(heap, ref last, _putterBalance);
                     }
                 }
 
                 //Offset - 2
                 if(_data[2] == "Right Handed, Right Eye" || _data[2] == "Left Handed, Left Eye")
                 {
-                    temp.importance = relativeImportance[2];
-                    temp.putterTrait = "Offset Shaft";
-                    insertHeap(heap, ref last, temp);
+                    _putterHosel.importance = relativeImportance[2];
+                    _putterHosel.putterTrait = "Offset Shaft";
+                    insertHeap(heap, ref last, _putterHosel);
                 }
                 else if (_data[2] == "Right Handed, Left Eye" || _data[2] == "Left Handed, Right Eye")
                 {
-                    temp.importance = relativeImportance[2];
-                    temp.putterTrait = "Straight Shaft";
-                    insertHeap(heap, ref last, temp);
+                    _putterHosel.importance = relativeImportance[2];
+                    _putterHosel.putterTrait = "Straight Shaft";
+                    insertHeap(heap, ref last, _putterHosel);
                 }
 
                 //Length - 4
@@ -163,21 +183,21 @@ namespace PutterFitting       //changed relativeImportance to public static, cha
                 //Weight -3
                 if(_data[1] == "Long")
                 {
-                    temp.importance = relativeImportance[1];
-                    temp.putterTrait = "Lighter Weight";
-                    insertHeap(heap, ref last, temp);
+                    _putterWeight.importance = relativeImportance[1];
+                    _putterWeight.putterTrait = "Lighter Weight";
+                    insertHeap(heap, ref last, _putterWeight);
                 }
                 else if (_data[1] == "Short")
                 {
-                    temp.importance = relativeImportance[1];
-                    temp.putterTrait = "Heavier Weight";
-                    insertHeap(heap, ref last, temp);
+                    _putterWeight.importance = relativeImportance[1];
+                    _putterWeight.putterTrait = "Heavier Weight";
+                    insertHeap(heap, ref last, _putterWeight);
                 }
                 else if (_data[1] == "Not Applicable")
                 {
-                    temp.importance = relativeImportance[1];
-                    temp.putterTrait = "Standard Weight";
-                    insertHeap(heap, ref last, temp);
+                    _putterWeight.importance = relativeImportance[1];
+                    _putterWeight.putterTrait = "Standard Weight";
+                    insertHeap(heap, ref last, _putterWeight);
                 }
 
                 //Grip -3X3
@@ -246,23 +266,22 @@ namespace PutterFitting       //changed relativeImportance to public static, cha
                 //Feel-2
                 if(_data[8] == "Softer Feel")
                 {
-                    temp.importance = relativeImportance[8];
-                    temp.putterTrait = "Softer Feel";
-                    insertHeap(heap, ref last, temp);
+                    _putterFeel.importance = relativeImportance[8];
+                    _putterFeel.putterTrait = "Softer Feel";
+                    insertHeap(heap, ref last, _putterFeel);
                 }
                 else
                 {
-                    temp.importance = relativeImportance[8];
-                    temp.putterTrait = "Harder Feel";
-                    insertHeap(heap, ref last, temp);
+                    _putterFeel.importance = relativeImportance[8];
+                    _putterFeel.putterTrait = "Harder Feel";
+                    insertHeap(heap, ref last, _putterFeel);
                 }
 
             putter = new PutterData(heap, last);
             putter.GetPutter();
             return putter.putterFits; //string of fit putters
-            //return heap;
             }
-        }
+    }
 }
  /*
 Common miss {"Left", "Right", "Not Applicable"}; 0

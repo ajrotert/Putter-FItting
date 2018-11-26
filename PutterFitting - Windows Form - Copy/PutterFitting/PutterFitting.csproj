@@ -49,6 +49,7 @@
     <Compile Include="Admin.cs" />
     <Compile Include="Algorithm.cs" />
     <Compile Include="CreditCard.cs" />
+    <Compile Include="Iputter.cs" />
     <Compile Include="PutterData.cs" />
     <Compile Include="PutterFittingForm.cs">
       <SubType>Form</SubType>

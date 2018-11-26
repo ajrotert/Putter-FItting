@@ -4,7 +4,7 @@ using System.IO;
 using System.Text;
 using System.Windows.Forms;
 
-namespace PutterFitting //added verify, also changed fileName to data, removed fileData field, added remove data function
+namespace PutterFitting 
 {
 	public class SaveData
 	{

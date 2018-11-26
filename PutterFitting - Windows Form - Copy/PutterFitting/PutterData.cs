@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace PutterFitting    // d putterVal, changed putterLink, to  putterFits array
-{  //added PutterLength and PutterGrip and putterCharacteristics
-    public class PutterData
-	{
+namespace PutterFitting    
+{  
+    public class PutterData : Iputter //implements traits for found putter
+    {
 
         private void reheapDown(node[] heap, int loc, int last)
         {//check for children, if one is larger then swap
@@ -41,6 +41,25 @@ namespace PutterFitting    // d putterVal, changed putterLink, to  putterFits ar
                 reheapDown(heap, 0, last);
             }
         }
+        public string putterShape { get; set; }
+        public string putterBalance { get; set; }
+        public string putterHosel { get; set; }
+        public string putterWeight { get; set; }
+        public string putterFeel { get; set; }
+        public void setCharacteristic(params string[] putterName)//this should be putter name
+        {
+            for(int a = 0; a<data.Length; a++)
+            {
+                if(data[a].Contains(putterName[0]))
+                {
+                    putterShape = data[a].Split('\u00BB')[1];
+                    putterBalance = data[a].Split('\u00BB')[2];
+                    putterHosel = data[a].Split('\u00BB')[3];
+                    putterWeight = data[a].Split('\u00BB')[4];
+                    putterFeel = data[a].Split('\u00BB')[5];
+                }
+            }
+        }
         public PutterData(node[] heap, int last)
         {
             int a = 0, l = last;
@@ -50,7 +69,7 @@ namespace PutterFitting    // d putterVal, changed putterLink, to  putterFits ar
             while (l >= 0)
             {
                 putterCharacteristics[a] = "";
-                deleteHeap(heap, ref l, ref putterCharacteristics[a]); //*****First two should be len and grip, not sent to putter data
+                deleteHeap(heap, ref l, ref putterCharacteristics[a]);
                 a++;
             }
         }
@@ -58,12 +77,13 @@ namespace PutterFitting    // d putterVal, changed putterLink, to  putterFits ar
         public string PutterGrip;
 		public string[] putterFits;
 		public string[] putterCharacteristics = new string[5];
+        private string[] data; //holds the unsplit data for matching putters
         SaveData putters = new SaveData("putters.txt");
 
 
         public void GetPutter()
         {
-            string[] data = putters.accessData(putterCharacteristics);
+            data = putters.accessData(putterCharacteristics);
             putterFits = new string[data.Length];
             for(int a =0; a<data.Length; a++)
             {

@@ -44,7 +44,7 @@ namespace PutterFitting//added admin function, start, postlogin
         "Height",
         "Putter Head Movement",
         "Grip Perefrence",
-        "Feel"};
+        "Putter Head Feel"};
         public int counter = 0;                     //Track the display options for fitting
         public PutterFittingSoftware()
         {
@@ -79,10 +79,13 @@ namespace PutterFitting//added admin function, start, postlogin
         {
             string[] results = person1.startFit(data, importance);
             resultsSetup();
-            OutBox.Text += " ( " + results.Length + " )" + Environment.NewLine + Environment.NewLine;
+            optionsList.Items.Add(" Putters Found: ( " + results.Length + " )");
+            optionsList.Items.Add("");
             for (int a = 0; a < results.Length; a++)
-                OutBox.Text += results[a] + Environment.NewLine;
-            OutBox.Text += Environment.NewLine + "Length: " + person1.fit.putter.PutterLength + " Grip: " + person1.fit.putter.PutterGrip;
+                optionsList.Items.Add(results[a]);
+            optionsList.Items.Add("");
+            optionsList.Items.Add("Length: " + person1.fit.putter.PutterLength);
+            optionsList.Items.Add("Grip: " + person1.fit.putter.PutterGrip);
         }
         private void viewAll_Click(object sender, EventArgs e)
         {
@@ -115,6 +118,7 @@ namespace PutterFitting//added admin function, start, postlogin
             else
             {
                 Controls.Remove(optionsList);
+                Controls.Remove(OutBox2);
                 viewAllButton.Text = "Search";
                 OutBox.Text = "Enter putter name, brand, or category. (Leave Blank to view all): ";
                 Controls.Remove(manageButton);
@@ -130,7 +134,7 @@ namespace PutterFitting//added admin function, start, postlogin
                 putterCounter++;
                 if (putterCounter == 5)
                 {
-                    admin1.AddNewPutter(putter);
+                    admin1.setCharacteristic(putter);
                     putterEndSetup();
                 }
                 else
@@ -148,12 +152,23 @@ namespace PutterFitting//added admin function, start, postlogin
                 log = log.Remove(0, 13);
                 admin1.managePutter = log;
                 if (admin1.putterExist())
-                    manageButton.Text = "Remove";
+                {
+                    removeSetup();
+                }
                 else
                     newPutterSetup();
             }
         }
-        
+        private void viewButton_Click(object sender, EventArgs e)
+        {
+            Controls.Add(OutBox2);
+            Controls.Remove(viewButton);
+            OutBox2.Text += Environment.NewLine + "Putter Shape: " + admin1.putterShape;
+            OutBox2.Text += Environment.NewLine + "Putter Balance: " + admin1.putterBalance;
+            OutBox2.Text += Environment.NewLine + "Putter Hosel: " + admin1.putterHosel;
+            OutBox2.Text += Environment.NewLine + "Putter Weight: " + admin1.putterWeight;
+            OutBox2.Text += Environment.NewLine + "Putter Feel: " + admin1.putterFeel;
+        }
         private void Login_Click(object sender, EventArgs e)
         {
             if (Login.Text == "Login")
@@ -193,9 +208,9 @@ namespace PutterFitting//added admin function, start, postlogin
                 string creditcardnumber = CreditCardInputBox.Text;
                 string cvv2 = CVV2InputBox.Text;
                 string expiration = ExpirationInputBox.Text;
-                if (!(birthdate[2] == '/' && birthdate[5] == '/' && birthdate.Length == 8))
+                if (!(birthdate[2] == '/' && birthdate[5] == '/' && (birthdate.Length == 8 || birthdate.Length == 10)))
                     MessageBox.Show("Invalid Birthdate");
-                else if (!(expiration[2] == '/' && expiration[5] == '/' && expiration.Length == 8))
+                else if (!(expiration[2] == '/' && (expiration.Length == 5||expiration.Length==7)))
                     MessageBox.Show("Invalid Expiration Date");
                 else if (!(cvv2.Length == 3 && cvv2[0] >= '0' && cvv2[0] <= '9' && cvv2[1] >= '0' && cvv2[1] <= '9' && cvv2[2] >= '0' && cvv2[2] <= '9'))
                     MessageBox.Show("Invalid CVV2");
@@ -256,7 +271,14 @@ namespace PutterFitting//added admin function, start, postlogin
 
             }
         }
-
+        private void backButton_Click(object sender, EventArgs e)
+        {
+            loginSetup();
+        }
+        private void newUser_Click(object sender, EventArgs e)
+        {
+            newUserSetup();
+        }
         private void infoButton_Click(object sender, EventArgs e)
         {
             string[] infoHelp = { "If you have a consistent miss, left or right, select the appropriate option, otherwise select \"Not Applicable\". If you are not sure or your misses are not  consistent select \"Not Applicable\".",
@@ -292,7 +314,8 @@ namespace PutterFitting//added admin function, start, postlogin
             passwordLabel = new System.Windows.Forms.Label();
             LoginInputBox = new System.Windows.Forms.TextBox();
             PasswordInputBox = new System.Windows.Forms.TextBox();
-             
+            newUserButton = new System.Windows.Forms.Button();
+
             Login.Font = new System.Drawing.Font("Tahoma", 10.125F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             Login.ForeColor = System.Drawing.Color.MidnightBlue;
             Login.Location = new System.Drawing.Point(560, 144);
@@ -301,8 +324,18 @@ namespace PutterFitting//added admin function, start, postlogin
             Login.TabIndex = 21;
             Login.Text = "Login";
             Login.UseVisualStyleBackColor = true;
-            Login.Click += new System.EventHandler(this.Login_Click);
-             
+            Login.Click += new System.EventHandler(Login_Click);
+
+            newUserButton.Font = new System.Drawing.Font("Tahoma", 10.125F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            newUserButton.ForeColor = System.Drawing.Color.MidnightBlue;
+            newUserButton.Location = new System.Drawing.Point(560, 104);
+            newUserButton.Name = "newUserButton";
+            newUserButton.Size = new System.Drawing.Size(82, 35);
+            newUserButton.TabIndex = 21;
+            newUserButton.Text = "Create";
+            newUserButton.UseVisualStyleBackColor = true;
+            newUserButton.Click += new System.EventHandler(newUser_Click);
+
             LoginLabel.AutoSize = true;
             LoginLabel.Font = new System.Drawing.Font("Segoe MDL2 Assets", 36F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             LoginLabel.ForeColor = System.Drawing.SystemColors.Control;
@@ -337,14 +370,19 @@ namespace PutterFitting//added admin function, start, postlogin
             PasswordInputBox.Name = "PasswordInputBox";
             PasswordInputBox.Size = new System.Drawing.Size(295, 48);
             PasswordInputBox.TabIndex = 26;
+            PasswordInputBox.PasswordChar = '\u25CF';
+
             Controls.Add(PasswordInputBox);
             Controls.Add(LoginInputBox);
             Controls.Add(passwordLabel);
             Controls.Add(LoginLabel);
             Controls.Add(Login);
+            Controls.Add(newUserButton);
         }
         private void newUserSetup()
         {
+            Controls.Remove(newUserButton);
+
             FirstNameLabel = new System.Windows.Forms.Label();
             LastNameLabel = new System.Windows.Forms.Label();
             FNameInputBox = new System.Windows.Forms.TextBox();
@@ -359,6 +397,8 @@ namespace PutterFitting//added admin function, start, postlogin
             ExpirationInputBox = new System.Windows.Forms.TextBox();
             HandicapLabel = new System.Windows.Forms.Label();
             HandicapInputBox = new System.Windows.Forms.TextBox();
+            backButton = new System.Windows.Forms.Button();
+
 
             LoginLabel.Font = new System.Drawing.Font("Segoe MDL2 Assets", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             passwordLabel.Font = new System.Drawing.Font("Segoe MDL2 Assets", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -370,6 +410,16 @@ namespace PutterFitting//added admin function, start, postlogin
             PasswordInputBox.Location = new System.Drawing.Point(224, 95);
             Login.Location = new System.Drawing.Point(560, 300);
 
+
+            backButton.Font = new System.Drawing.Font("Tahoma", 10.125F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            backButton.ForeColor = System.Drawing.Color.MidnightBlue;
+            backButton.Location = new System.Drawing.Point(560, 265);
+            backButton.Name = "backButton";
+            backButton.Size = new System.Drawing.Size(82, 35);
+            backButton.TabIndex = 21;
+            backButton.Text = "Back";
+            backButton.UseVisualStyleBackColor = true;
+            backButton.Click += new System.EventHandler(backButton_Click);
 
             HandicapLabel.AutoSize = true;
             HandicapLabel.Font = new System.Drawing.Font("Segoe MDL2 Assets", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -429,7 +479,7 @@ namespace PutterFitting//added admin function, start, postlogin
             BirthdateLabel.Name = "BirthdateLabel";
             //BirthdateLabel.Size = new System.Drawing.Size(222, 96);
             BirthdateLabel.TabIndex = 23;
-            BirthdateLabel.Text = "Birthdate (xx/xx/xx)";
+            BirthdateLabel.Text = "Birthdate (mm/dd/yy)";
             BirthdateLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
 
             CreditCardLabel.AutoSize = true;
@@ -474,7 +524,7 @@ namespace PutterFitting//added admin function, start, postlogin
             ExpirationLabel.Location = new System.Drawing.Point(17, 300);
             ExpirationLabel.Name = "ExpirationLabel";
             ExpirationLabel.TabIndex = 24;
-            ExpirationLabel.Text = "Expiration (xx/xx/xx)";
+            ExpirationLabel.Text = "Expiration (mm/yy)";
             ExpirationLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
 
             CVV2InputBox.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -506,6 +556,7 @@ namespace PutterFitting//added admin function, start, postlogin
             Controls.Add(ExpirationInputBox);
             Controls.Add(HandicapLabel);
             Controls.Add(HandicapInputBox);
+            Controls.Add(backButton);
             Login.Text = "Create";
         }
         private void adminSetup()
@@ -590,7 +641,7 @@ namespace PutterFitting//added admin function, start, postlogin
             HandicapLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
 
             optionsTitle.AutoSize = true;
-            optionsTitle.Font = new System.Drawing.Font("Segoe MDL2 Assets", 10.125F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            optionsTitle.Font = new System.Drawing.Font("Segoe MDL2 Assets", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             optionsTitle.Location = new System.Drawing.Point(120, 170); // 442, 393
             optionsTitle.Name = "optionsTitle";
             optionsTitle.Size = new System.Drawing.Size(193, 27);
@@ -620,7 +671,7 @@ namespace PutterFitting//added admin function, start, postlogin
             importanceBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
              
             importanceTitle.AutoSize = true;
-            importanceTitle.Font = new System.Drawing.Font("Segoe MDL2 Assets", 10.125F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            importanceTitle.Font = new System.Drawing.Font("Segoe MDL2 Assets", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             importanceTitle.Location = new System.Drawing.Point(455, 170);
             importanceTitle.Name = "importanceTitle";
             importanceTitle.Size = new System.Drawing.Size(176, 25);
@@ -633,7 +684,7 @@ namespace PutterFitting//added admin function, start, postlogin
             oneToFiveLabel.Name = "oneToFiveLabel";
             oneToFiveLabel.Size = new System.Drawing.Size(57, 25);
             oneToFiveLabel.TabIndex = 21;
-            oneToFiveLabel.Text = "(1-5)";
+            oneToFiveLabel.Text = "(1-5)" + Environment.NewLine+"L - H";
             
             NextButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             NextButton.ForeColor = System.Drawing.Color.MidnightBlue;
@@ -673,6 +724,7 @@ namespace PutterFitting//added admin function, start, postlogin
             Controls.Add(importanceBox);
             Controls.Add(importanceTitle);
             Controls.Add(oneToFiveLabel);
+            Controls.Add(optionsTitle);
             Controls.Add(NextButton);
             Controls.Add(infoButton);
             Controls.Add(info2Button);
@@ -717,22 +769,21 @@ namespace PutterFitting//added admin function, start, postlogin
             Controls.Clear();
             Controls.Add(PutterTitle);
             Controls.Add(ChangePasswordLink);
-            OutBox = new System.Windows.Forms.TextBox();
+            optionsList = new System.Windows.Forms.ListBox();
             Controls.Remove(LoginLabel);
             Controls.Remove(LoginInputBox);
             Controls.Remove(passwordLabel);
             Controls.Remove(PasswordInputBox);
-            OutBox.Font = new System.Drawing.Font("Segoe MDL2 Assets", 30F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            OutBox.Size = new System.Drawing.Size(616, 325);
-            OutBox.Font = new System.Drawing.Font("Tahoma", 16.125F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            OutBox.ForeColor = System.Drawing.Color.MidnightBlue;
-            OutBox.Location = new System.Drawing.Point(25, 69);
-            OutBox.Multiline = true;
-            OutBox.Name = "OutBox";
-            OutBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            OutBox.TabIndex = 0;
-            Controls.Add(OutBox);
-            OutBox.Text = "Best Fitting Putters: ";
+
+            optionsList.Size = new System.Drawing.Size(616, 325);
+            optionsList.Font = new System.Drawing.Font("Tahoma", 16.125F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            optionsList.FormattingEnabled = true;
+            optionsList.ForeColor = System.Drawing.Color.MidnightBlue;
+            optionsList.Location = new System.Drawing.Point(25, 69);
+            optionsList.Name = "optionsList";
+            optionsList.TabIndex = 3;
+            Controls.Add(optionsList);
+            optionsList.Items.Add("Best Fitting Putters: ");
         }
         private void changePasswordSetup()
         {
@@ -854,8 +905,40 @@ namespace PutterFitting//added admin function, start, postlogin
             Controls.Add(LoginLabel);
             Controls.Add(LoginInputBox);
         }
+        private void removeSetup()
+        {
+            manageButton.Text = "Remove";
+
+            viewButton = new System.Windows.Forms.Button();
+            OutBox2 = new System.Windows.Forms.TextBox();
+
+            viewButton.Font = new System.Drawing.Font("Tahoma", 10.125F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            viewButton.ForeColor = System.Drawing.Color.MidnightBlue;
+            viewButton.Location = new System.Drawing.Point(560, 185);
+            viewButton.Name = "viewButton";
+            viewButton.Size = new System.Drawing.Size(82, 35);
+            viewButton.TabIndex = 21;
+            viewButton.Text = "View";
+            viewButton.UseVisualStyleBackColor = true;
+            viewButton.Click += new System.EventHandler(viewButton_Click);
+            viewButton.BringToFront();
+
+            OutBox2 = new System.Windows.Forms.TextBox();
+            OutBox2.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            OutBox2.ForeColor = System.Drawing.Color.MidnightBlue;
+            OutBox2.Location = new System.Drawing.Point(25, 185);
+            OutBox2.Multiline = true;
+            OutBox2.Name = "OutBox2";
+            OutBox2.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            OutBox2.Size = new System.Drawing.Size(617, 115); //1233, 219
+            OutBox2.TabIndex = 0;
+            OutBox2.Text = OutBox.Text;
+
+            Controls.Add(viewButton);
+        }
 
         private System.Windows.Forms.TextBox OutBox;
+        private System.Windows.Forms.TextBox OutBox2;
         private System.Windows.Forms.ListBox optionsList;
         private System.Windows.Forms.TextBox importanceBox;
         private System.Windows.Forms.Label oneToFiveLabel;
@@ -883,6 +966,12 @@ namespace PutterFitting//added admin function, start, postlogin
         private System.Windows.Forms.Button info2Button;
         private System.Windows.Forms.TextBox HandicapInputBox;
         private System.Windows.Forms.Label HandicapLabel;
+        private System.Windows.Forms.Button viewButton;
+        private System.Windows.Forms.Button backButton;
+        private System.Windows.Forms.Button newUserButton;
+
+
+
     }
 
 }

@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace PutterFitting
 {
-    public class Admin : Users
+    public class Admin : Users, Iputter //implements traits for actual putter to be added
     {
         public Admin(string Fname, string Lname) : base(Fname, Lname)
         {
@@ -18,11 +18,39 @@ namespace PutterFitting
         public string managePutter;
         new public static bool Active = false;
         SaveData putterSave = new SaveData("putters.txt");
+
+        //Iputter Interface implementation
+        public string putterShape { get; set; }
+        public string putterBalance { get; set; }
+        public string putterHosel { get; set; }
+        public string putterWeight { get; set; }
+        public string putterFeel { get; set; }
+        public void setCharacteristic(params string[] data)
+        {
+            putterShape = data[0];
+            putterBalance = data[1];
+            putterHosel = data[2];
+            putterWeight = data[3];
+            putterFeel = data[4];
+            AddNewPutter(putterShape, putterBalance, putterHosel, putterWeight, putterFeel);
+        }
+
         public bool putterExist()
         {
-            return putterSave.verify(managePutter);
+            bool exist = putterSave.verify(managePutter);
+            string[] data;
+            if(exist)
+            {
+                data = putterSave.accessData(managePutter)[0].Split('\u00BB');
+                putterShape = data[1];
+                putterBalance = data[2];
+                putterHosel = data[3];
+                putterWeight = data[4];
+                putterFeel = data[5];
+            }
+            return exist;
         }
-        public void AddNewPutter(params string[] putterData)
+        private void AddNewPutter(params string[] putterData)
         {
             List<string> complete = new List<string>();
             complete.Add(managePutter);

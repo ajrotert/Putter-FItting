@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
 
-namespace PutterFitting //removed save data //add remove person? added start fit //changed name to consumer//added changepassword override
+namespace PutterFitting 
 {
 
     public class Consumer : Users
@@ -28,6 +28,7 @@ namespace PutterFitting //removed save data //add remove person? added start fit
              _password = password;
              _Birthdate = Convert.ToDateTime(birtdate);
              _UserCard = new CreditCard(CrediCardNumber, cvv2, expirationDate);
+            _Handicap = "(None)";
         }
         string _username; //not in superclass, because admin has set username, and password
 		string _password;
@@ -85,6 +86,7 @@ namespace PutterFitting //removed save data //add remove person? added start fit
         {
             fit = new Algorithm(UserData, UserImportance);
             string[] results = fit.FindPutter();
+            fit.setCharacteristic();
             return results;
         }
         public override bool ChangePassword(string firstName, string lastName, string newPassword, string username)

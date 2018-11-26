@@ -5,7 +5,7 @@ using System.Windows.Forms;
 
 namespace PutterFitting
 {
-	public class CreditCard // string credit card number, no longer inherts
+	public class CreditCard
 	{
         public CreditCard(string CrediCardNumber, string cvv2, DateTime expirationDate)
         {
