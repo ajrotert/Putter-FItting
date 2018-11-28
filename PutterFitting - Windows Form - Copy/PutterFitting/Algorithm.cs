@@ -10,14 +10,15 @@ namespace PutterFitting
             {
                 _data = data;
                 _userImportance = userImportance;
-
             }
-    		string[] _data;
-    		int[] _userImportance;
-            public static int[] relativeImportance = {3, 2, 1, 5, 3, 0, 4, 0, 1};
+
+    		private string[] _data;
+    		private int[] _userImportance;
+            public static int[] importanceLevel = { 3, 2, 1, 5, 3, 0, 4, 0, 1 };
+            private int[] relativeImportance = new int[importanceLevel.Length];
             public const int HEAP_SIZE = 7;
             private int last = -1;
-            node[] heap = new node[HEAP_SIZE];
+            private node[] heap = new node[HEAP_SIZE];
             public PutterData putter;
             private node temp; //used for the length and grip
             private node _putterShape;
@@ -32,6 +33,7 @@ namespace PutterFitting
             public string putterHosel { get; set; }
             public string putterWeight { get; set; }
             public string putterFeel { get; set; }
+            public string putterLink { get; set; } //implementation not needed for finding matching putter
             public void setCharacteristic(params string[] data)
             {
                 putterShape = _putterShape.putterTrait;
@@ -39,13 +41,14 @@ namespace PutterFitting
                 putterHosel = _putterHosel.putterTrait;
                 putterWeight = _putterWeight.putterTrait;
                 putterFeel = _putterFeel.putterTrait;
+                putterLink = null;
             }
 
             private void FindArrVal()
     		{
                 for (int a = 0; a < 9; a++)
                 {
-                    relativeImportance[a] = relativeImportance[a] * _userImportance[a];
+                    relativeImportance[a] = importanceLevel[a] * _userImportance[a];
                 }
             }
 

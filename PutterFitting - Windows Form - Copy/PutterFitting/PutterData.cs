@@ -41,14 +41,16 @@ namespace PutterFitting
                 reheapDown(heap, 0, last);
             }
         }
+        //Iputter Interface implementation
         public string putterShape { get; set; }
         public string putterBalance { get; set; }
         public string putterHosel { get; set; }
         public string putterWeight { get; set; }
         public string putterFeel { get; set; }
-        public void setCharacteristic(params string[] putterName)//this should be putter name
+        public string putterLink { get; set; }
+        public void setCharacteristic(params string[] putterName)
         {
-            for(int a = 0; a<data.Length; a++)
+            for(int a = 0; a<data.Length; a++) //data is the list of putters that fit, not data passed in
             {
                 if(data[a].Contains(putterName[0]))
                 {
@@ -57,6 +59,14 @@ namespace PutterFitting
                     putterHosel = data[a].Split('\u00BB')[3];
                     putterWeight = data[a].Split('\u00BB')[4];
                     putterFeel = data[a].Split('\u00BB')[5];
+                    if (data[a].Split('\u00BB')[6] != "")
+                    {
+                        putterLink = data[a].Split('\u00BB')[6];
+                    }
+                    else
+                    {
+                        putterLink = null;
+                    }
                 }
             }
         }
@@ -76,7 +86,7 @@ namespace PutterFitting
         public string PutterLength;
         public string PutterGrip;
 		public string[] putterFits;
-		public string[] putterCharacteristics = new string[5];
+		private string[] putterCharacteristics = new string[5];
         private string[] data; //holds the unsplit data for matching putters
         SaveData putters = new SaveData("putters.txt");
 

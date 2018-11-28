@@ -1,4 +1,4 @@
-﻿admin»admin»Andrew»Rotert»
+admin»admin»Andrew»Rotert»
 putter1»putter1»Mark»Rotert»12/17/1998»120»
 user1»abc123»Person»Johnson»1/1/1968»21»
 b»b»mark»r»11/11/2011»5000»
@@ -8,4 +8,7 @@ fred»afred»dan»rotert»2/18/1968»18»
 newuser»new»john»doe»3/7/1992»
 newperson»test»test1»test1»12/12/2012»
 andrew1»test»test2»test2»12/12/2012»14»
-andrew»password»Andrew»Rotert»12/17/1998»14»
+testperson»test»test»testing»1/1/2001»1»
+test1234»test»testuser»testlast»12/12/2012»1»
+test21»test»testing»testing»12/12/1998»
+andrew»password»Andrew»Rotert»12/17/1998»

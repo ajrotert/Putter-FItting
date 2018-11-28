@@ -25,6 +25,7 @@ namespace PutterFitting
         public string putterHosel { get; set; }
         public string putterWeight { get; set; }
         public string putterFeel { get; set; }
+        public string putterLink { get; set; }
         public void setCharacteristic(params string[] data)
         {
             putterShape = data[0];
@@ -32,7 +33,16 @@ namespace PutterFitting
             putterHosel = data[2];
             putterWeight = data[3];
             putterFeel = data[4];
-            AddNewPutter(putterShape, putterBalance, putterHosel, putterWeight, putterFeel);
+            if (data.Length == 6)
+            {
+                putterLink = data[5];
+                AddNewPutter(putterShape, putterBalance, putterHosel, putterWeight, putterFeel, putterLink);
+            }
+            else
+            {
+                putterLink = "None";
+                AddNewPutter(putterShape, putterBalance, putterHosel, putterWeight, putterFeel);
+            }
         }
 
         public bool putterExist()

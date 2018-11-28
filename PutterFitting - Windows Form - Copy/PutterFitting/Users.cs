@@ -5,11 +5,6 @@ using System.Windows.Forms;
 
 namespace PutterFitting
 {
-    public struct node
-    {
-        public int importance;
-        public string putterTrait; //used for heaps, stores the user data in levels of importance
-    };
 
     public class Users
 	{

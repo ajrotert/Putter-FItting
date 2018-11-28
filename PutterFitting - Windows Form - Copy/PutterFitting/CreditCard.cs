@@ -21,7 +21,7 @@ namespace PutterFitting
 		{
             if (_expirationDate > DateTime.Now && _CreditCardNumber.Length == 16)
             {
-                MessageBox.Show("Payment made on: xxxxxxxxxxxx" + _CreditCardNumber[12].ToString() + _CreditCardNumber[13].ToString() + _CreditCardNumber[14].ToString() + _CreditCardNumber[15].ToString() + Environment.NewLine + "Total of: " + total);
+                MessageBox.Show("Payment made on: xxxxxxxxxxxx" + _CreditCardNumber[12].ToString() + _CreditCardNumber[13].ToString() + _CreditCardNumber[14].ToString() + _CreditCardNumber[15].ToString() + Environment.NewLine + "Total of: $" + total);
                 return true;
             }
             else if (_expirationDate < DateTime.Now)

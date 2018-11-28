@@ -30,9 +30,18 @@ namespace PutterFitting
              _UserCard = new CreditCard(CrediCardNumber, cvv2, expirationDate);
             _Handicap = "(None)";
         }
+        public Consumer(Consumer c) : base(c._Fname, c._Lname) //used if the consumer restarts, creates a new instance that copies over
+        {
+            _username = c.username;
+            _password = c.password;
+            _Birthdate = c._Birthdate;
+            _UserCard = c._UserCard;
+            _Handicap = c.Handicap;
+        }
         string _username; //not in superclass, because admin has set username, and password
 		string _password;
 		string _Handicap;
+        public string[] results;
         public Algorithm fit;
         CreditCard _UserCard;
         private static SaveData save = new SaveData("users.txt");//called without instance of user for login
@@ -82,12 +91,11 @@ namespace PutterFitting
         {
             return UserSave.save(username, password, _Fname, _Lname, _Birthdate.ToShortDateString());
         }
-        public string[] startFit(string[] UserData, int[] UserImportance)
+        public void startFit(string[] UserData, int[] UserImportance)
         {
             fit = new Algorithm(UserData, UserImportance);
-            string[] results = fit.FindPutter();
+            results = fit.FindPutter();
             fit.setCharacteristic();
-            return results;
         }
         public override bool ChangePassword(string firstName, string lastName, string newPassword, string username)
         {
