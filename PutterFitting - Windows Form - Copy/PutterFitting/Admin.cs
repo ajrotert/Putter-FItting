@@ -15,9 +15,16 @@ namespace PutterFitting
             _Lname = Lname;
             Active = true;
         }
-        public string managePutter;
+        public string manage =null;
+        public string fileName;
         new public static bool Active = false;
-        SaveData putterSave = new SaveData("putters.txt");
+        SaveData dataSave; 
+
+        public void setFile(string fileName)
+        {
+            this.fileName = fileName;
+            dataSave = new SaveData(fileName);
+        }
 
         //Iputter Interface implementation
         public string putterShape { get; set; }
@@ -28,64 +35,64 @@ namespace PutterFitting
         public string putterLink { get; set; }
         public void setCharacteristic(params string[] data)
         {
+            if (putterExist())
+            {
+                List<string> dataChar = new List<string>();
+                dataChar = dataSave.accessData(manage)[0].Split('\u00BB').ToList();
+                dataChar.RemoveAt(0);
+                data = dataChar.ToArray();
+            }
             putterShape = data[0];
             putterBalance = data[1];
             putterHosel = data[2];
             putterWeight = data[3];
             putterFeel = data[4];
-            if (data.Length == 6)
-            {
+            if (data.Length >= 6)
                 putterLink = data[5];
-                AddNewPutter(putterShape, putterBalance, putterHosel, putterWeight, putterFeel, putterLink);
-            }
             else
-            {
                 putterLink = "None";
-                AddNewPutter(putterShape, putterBalance, putterHosel, putterWeight, putterFeel);
+            if (!putterExist())
+            {
+                if (putterLink != "None")
+                    AddNewPutter(putterShape, putterBalance, putterHosel, putterWeight, putterFeel, putterLink);
+                else
+                    AddNewPutter(putterShape, putterBalance, putterHosel, putterWeight, putterFeel);
             }
         }
 
         public bool putterExist()
         {
-            bool exist = putterSave.verify(managePutter);
-            string[] data;
-            if(exist)
-            {
-                data = putterSave.accessData(managePutter)[0].Split('\u00BB');
-                putterShape = data[1];
-                putterBalance = data[2];
-                putterHosel = data[3];
-                putterWeight = data[4];
-                putterFeel = data[5];
-            }
-            return exist;
+            bool exist = dataSave.verify(manage);
+            if(manage != null && manage != "")
+                return exist;
+            return false;
         }
-        private void AddNewPutter(params string[] putterData)
+        public void AddNewPutter(params string[] putterData)
         {
             List<string> complete = new List<string>();
-            complete.Add(managePutter);
+            complete.Add(manage);
             for (int a = 0; a < putterData.Length; a++)
                 complete.Add(putterData[a]);
-            putterSave.save(complete.ToArray());
+            dataSave.save(complete.ToArray());
         }
 
         public void RemovePutter()
         {
             bool success;
-            success = putterSave.remove(managePutter);
+            success = dataSave.remove(manage);
             if (success == false)
-                MessageBox.Show(managePutter + " not found in file");
+                MessageBox.Show(manage + " not found in file");
         }
-        public string[] viewPutter()
+        public string[] viewData()
         {
-            string[] matching = putterSave.accessData(('\u00BB').ToString());
+            string[] matching = dataSave.accessData(('\u00BB').ToString());
             for(int a = 0; a<matching.Length; a++)
             {
                 matching[a] = matching[a].Replace('\u00BB', '|');
             }
             return matching;
         }
-        public string[] viewPutter(string[] data)
+        public string[] viewData(string[] data)
         {
             List<string> combined = new List<string>();
             for (int i = 0; i < data.Length; i++)
@@ -93,13 +100,13 @@ namespace PutterFitting
                 string[] matching;
                 if (data[i] == "")
                 {
-                    matching = viewPutter();
+                    matching = viewData();
                 }
                 else
                 {
                     if (data[i][data[i].Length - 1] == '\r')
                         data[i] = data[i].Remove(data[i].Length - 1);
-                    matching = putterSave.accessData(data[i]);
+                    matching = dataSave.accessData(data[i]);
                 }
                 for (int a = 0; a < matching.Length; a++)
                 {
@@ -125,5 +132,9 @@ namespace PutterFitting
                 return false;
             }
         }
-}
+        ~Admin()
+        {
+            Active = false;
+        }
+    }
 }

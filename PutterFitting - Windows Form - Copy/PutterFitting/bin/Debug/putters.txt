@@ -1,4 +1,4 @@
-﻿Scotty Cameron Newport 2»Normal Putter Head»Toe Weighted»Offset Shaft»Standard Weight»Harder Feel»https://www.scottycameron.com/putters/select/newport-2/»
+Scotty Cameron Newport 2»Normal Putter Head»Toe Weighted»Offset Shaft»Standard Weight»Harder Feel»https://www.scottycameron.com/putters/select/newport-2/»
 Scotty Cameron Newport 2.5»Normal Putter Head»Toe Weighted»Straight Shaft»Standard Weight»Harder Feel»https://www.scottycameron.com/putters/select/newport-25/»
 Scotty Cameron Newport 3»Wide Putter Head»Toe Weighted»Offset Shaft»Standard Weight»Harder Feel»https://www.scottycameron.com/putters/select/newport-3/»
 Scotty Cameron Newport Laguna»Wide Putter Head»Toe Weighted»Offset Shaft»Standard Weight»Harder Feel»https://www.scottycameron.com/putters/select/laguna/»
@@ -51,3 +51,4 @@ Cleveland Huntington Beach Soft 8.5»Wide Putter Head»Toe Weighted»Offset Shaf
 Cleveland Huntington Beach Soft 11»Normal Putter Head»Face Balanced»Offset Shaft»Heavier Weight»Softer Feel»https://www.clevelandgolf.com/en/putters-/huntington-beach-soft-11-putter/MHBS11.html»
 Cleveland Huntington Beach Soft 11C»Normal Putter Head»Face Balanced»Straight Shaft»Heavier Weight»Softer Feel»https://www.clevelandgolf.com/en/putters-/huntington-beach-soft-11c-putter/MHBS11C.html»
 Cleveland Huntington Beach Soft 12»Wide Putter Head»Face Balanced»Straight Shaft»Heavier Weight»Softer Feel»https://www.clevelandgolf.com/en/putters-/huntington-beach-soft-12-putter/MHBS12.html»
+test»Normal Putter Head»Toe Weighted»Offset Shaft»Heavier Weight»Softer Feel»fakelink»

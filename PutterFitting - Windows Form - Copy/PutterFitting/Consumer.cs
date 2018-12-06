@@ -67,7 +67,7 @@ namespace PutterFitting
         }
         public bool addNewPerson(string handicap = null)//not static, allow for a new instance ot be created to save
         {
-            if (!UserSave.verify(username))//if username does not exist then it will continue
+            if (!UserSave.verify(username) && username!="Guest")//if username does not exist then it will continue
             {
                 if (_UserCard.MakePayment(5.99))
                 {
@@ -87,15 +87,35 @@ namespace PutterFitting
                 return false;
             }
         }
-        private bool addNewPerson(bool makeNew)//the user logs in, they dont have a cc active, this overloads the first one that makes a payment
+        private bool addNewPerson(bool makeNew)
         {
-            return UserSave.save(username, password, _Fname, _Lname, _Birthdate.ToShortDateString());
+            if (makeNew)
+            {
+                if (Handicap != "(None)")
+                    return UserSave.save(username, password, _Fname, _Lname, _Birthdate.ToShortDateString(), Handicap);
+                return UserSave.save(username, password, _Fname, _Lname, _Birthdate.ToShortDateString());
+
+            }
+            return false;
         }
         public void startFit(string[] UserData, int[] UserImportance)
         {
             fit = new Algorithm(UserData, UserImportance);
             results = fit.FindPutter();
             fit.setCharacteristic();
+        }
+        public bool changeUserInformation(string username, string password, string fname, string lname, string birthdate, string handicap = null)
+        {
+            bool removed = UserSave.remove(this.username);
+            this.username = username;
+            this.password = password;
+            _Fname = fname;
+            _Lname = lname;
+            _Birthdate = Convert.ToDateTime(birthdate);
+            if (handicap != null)
+                Handicap = handicap;
+            
+            return addNewPerson(removed);
         }
         public override bool ChangePassword(string firstName, string lastName, string newPassword, string username)
         {
@@ -109,6 +129,10 @@ namespace PutterFitting
                 MessageBox.Show("Credentials don't match");
                 return false;
             }
+        }
+        ~Consumer()
+        {
+            Active = false;
         }
     }
 }

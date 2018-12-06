@@ -11,6 +11,11 @@ namespace PutterFitting
         protected internal string _Fname;
         protected internal string _Lname;
 		protected DateTime _Birthdate;
+        public DateTime birthdate
+        {
+            get { return _Birthdate; }
+            private set { _Birthdate = value; }
+        }
         public static bool Active = false;
         public SaveData UserSave = new SaveData("users.txt");
 
@@ -22,6 +27,8 @@ namespace PutterFitting
 		}
         public virtual bool ChangePassword(string username, string firstName, string lastName, string newPassword = null)
         {
+            if (_Fname == "Guest")
+                return false;
             if (firstName == _Fname && lastName == _Lname)
             {
                 UserSave.remove(username);
@@ -44,6 +51,9 @@ namespace PutterFitting
                 return false;
             }
         }
-        
+        ~Users()
+        {
+            Active = false;
+        }
     }
 }
