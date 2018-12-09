@@ -1,0 +1,15 @@
+Possible extensions that I did not get to, that could be added:
+
+Include in the admin deconstructer a way to save the login time, then show last session time on the main screen
+
+Add a button that when clicked allows for a consumer to calculate their handicap
+
+Allow for actual putter details to be entered in, instead of general ones, then have the function determine which category it falls in (Admin would enter in an exact weight instead of selecting light or heavy)
+
+If a username exist have a popup box saying wrong password upon login
+
+Add a class with grips, that can be displayed
+
+If it applies, break down putters in to separate classes or interfaces similar to what was show in the SOLID principles pdf
+
+Perhaps use enums for all the hard coded traits so they can be compared easier. 

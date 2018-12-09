@@ -1,0 +1,345 @@
+<Project>
+  <Name>Putter Fitting</Name>
+  <ProjectItem type="NClass.DiagramEditor.ClassDiagram.Diagram" assembly="NClass.DiagramEditor, Version=2.4.1823.0, Culture=neutral, PublicKeyToken=null">
+    <Name>Putter Fitting</Name>
+    <Language>CSharp</Language>
+    <Entities>
+      <Entity type="Class">
+        <Name>WindowsForm</Name>
+        <Access>Public</Access>
+        <Location left="620" top="290" />
+        <Size width="203" height="519" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">public string[] data</Member>
+        <Member type="Field">public string[] importanceLevel</Member>
+        <Member type="Field">Consumer person1</Member>
+        <Member type="Field">Admin admin1</Member>
+        <Member type="Field">public string[] putter</Member>
+        <Member type="Field">public string[,] putterLIst</Member>
+        <Member type="Method">void loginSetup()</Member>
+        <Member type="Method">void newUserSetup()</Member>
+        <Member type="Method">void adminPuttersSetup()</Member>
+        <Member type="Method">void adminUserSetup()</Member>
+        <Member type="Method">void fittingSetup()</Member>
+        <Member type="Method">void newPutterSetup()</Member>
+        <Member type="Method">void putterEndSetup()</Member>
+        <Member type="Method">void showPutterSetup()</Member>
+        <Member type="Method">void showUserSetup()</Member>
+        <Member type="Method">void resultsSetup()</Member>
+        <Member type="Method">void changePaswordSetup()</Member>
+        <Member type="Method">void resetPasswordSetup()</Member>
+        <Member type="Method">void removeSetup()</Member>
+        <Member type="Method">void showMoreSetup()</Member>
+        <Member type="Method">void showMyDetailsSetup()</Member>
+        <Member type="Method">void showMyDetails2Setup()</Member>
+        <Member type="Method">void startPageSetup()</Member>
+        <Member type="Method">void profileSetup()</Member>
+        <Member type="Method">void adminPageSetup()</Member>
+        <Member type="Method">void adminChnagePutterSetup()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Algorithm</Name>
+        <Access>Public</Access>
+        <Location left="620" top="860" />
+        <Size width="311" height="400" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">string[] data</Member>
+        <Member type="Field">int[] userImportance</Member>
+        <Member type="Field">private int[] relativeImportance</Member>
+        <Member type="Field">public static int[] importanceLevel</Member>
+        <Member type="Field">public const int HEAP_SIZE = 7</Member>
+        <Member type="Field">private int last = -1</Member>
+        <Member type="Field">node[] heap = new node[HEAP_SIZE]</Member>
+        <Member type="Field">public PutterData putter</Member>
+        <Member type="Field">private node temp</Member>
+        <Member type="Field">private node putterShape</Member>
+        <Member type="Field">private node putterBalance</Member>
+        <Member type="Field">private node putterHosel</Member>
+        <Member type="Field">private node putterWeight</Member>
+        <Member type="Field">private node putterFeel</Member>
+        <Member type="Method">public void FindArrVal()</Member>
+        <Member type="Method">public void NewMethod()</Member>
+        <Member type="Method">private void reheapUp(node[] heap, int child)</Member>
+        <Member type="Method">private void insertHeap(node[] heap, ref int last, node data)</Member>
+        <Member type="Method">public string[] FindPutter()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>PutterData</Name>
+        <Access>Public</Access>
+        <Location left="1050" top="1032" />
+        <Size width="208" height="230" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">public string PutterLength</Member>
+        <Member type="Field">public string PutterGrip</Member>
+        <Member type="Field">public string[] putterFits</Member>
+        <Member type="Field">private string[] putterCharacteristics</Member>
+        <Member type="Field">private string[] data</Member>
+        <Member type="Field">SaveData putters</Member>
+        <Member type="Method">private void reheapDown(node[] heap, int loc, int last)</Member>
+        <Member type="Method">private void deleteHeap(node[] heap, ref int last, ref string dataOut)</Member>
+        <Member type="Method">public void GetPutter()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Users</Name>
+        <Access>Public</Access>
+        <Location left="1591" top="200" />
+        <Size width="632" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">protected internal string Fname</Member>
+        <Member type="Field">protected internal string Lname</Member>
+        <Member type="Field">protected DateTime Birthdate</Member>
+        <Member type="Field">public static bool Active = false</Member>
+        <Member type="Field">public SaveData UserSave</Member>
+        <Member type="Method">public virtual bool ChangePassword(string username, string firstname, string lastname, string newpassword = null)</Member>
+        <Member type="Method">internal static bool ChangePassword(string username, string firstname, string lastname, string newpassword, DateTime birthdate)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>SaveData</Name>
+        <Access>Public</Access>
+        <Location left="1967" top="1002" />
+        <Size width="255" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">string fileName</Member>
+        <Member type="Method">public bool save(params string[] data)</Member>
+        <Member type="Method">public bool remove(params string[] data)</Member>
+        <Member type="Method">public bool verify(params string[] data)</Member>
+        <Member type="Method">public string[] accessData(params string[] data)</Member>
+        <Member type="Method">public static bool fileExist(string fileName)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>CreditCard</Name>
+        <Access>Public</Access>
+        <Location left="1111" top="200" />
+        <Size width="192" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">string CreditCardNumber</Member>
+        <Member type="Field">int cvv2</Member>
+        <Member type="Field">DateTime expirationDate</Member>
+        <Member type="Method">public bool MakePayment(int total)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Consumer</Name>
+        <Access>Public</Access>
+        <Location left="954" top="523" />
+        <Size width="703" height="298" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">string username</Member>
+        <Member type="Field">string password</Member>
+        <Member type="Field">string Handicap</Member>
+        <Member type="Field">public string[] results</Member>
+        <Member type="Field">public Algorith fit</Member>
+        <Member type="Field">private CreditCard UserCard</Member>
+        <Member type="Field">private static SaveData save</Member>
+        <Member type="Method">public static bool Login(string username, string password)</Member>
+        <Member type="Method">public bool addNewPerson(string handicap = null)</Member>
+        <Member type="Method">private bool addNewPerson(bool makeNew)</Member>
+        <Member type="Method">public string[] startFit(string[] UserData, int[] UserImportance)</Member>
+        <Member type="Method">public bool changeUserInformation(string username, string password, string firstname, string lastname, string birthdate, string handicap)</Member>
+        <Member type="Method">public override bool ChangePassword(string firstname, string lastname, string newpassword, string username)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Admin</Name>
+        <Access>Public</Access>
+        <Location left="1686" top="523" />
+        <Size width="522" height="298" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">public string manage</Member>
+        <Member type="Field">public string fileName</Member>
+        <Member type="Field">public static bool Active = false</Member>
+        <Member type="Field">SaveData putterSave</Member>
+        <Member type="Method">public void setFile(string fileName)</Member>
+        <Member type="Method">public bool putterExist()</Member>
+        <Member type="Method">public void AddNewPutter(params string[] putterData)</Member>
+        <Member type="Method">public void Remove()</Member>
+        <Member type="Method">public string[] viewData()</Member>
+        <Member type="Method">public string[] viewData(string[] data)</Member>
+        <Member type="Method">public override bool ChangePassword(string firstname, string lastanme, string newPassword, string username = "admin")</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Structure">
+        <Name>Node</Name>
+        <Access>Public</Access>
+        <Location left="1325" top="1032" />
+        <Size width="162" height="111" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">public int importance</Member>
+        <Member type="Field">public string putterTrait</Member>
+      </Entity>
+    </Entities>
+    <Relationships>
+      <Relationship type="Association" first="1" second="2">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>977</X>
+          <Y>1100</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>1015</X>
+          <Y>1100</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Aggregation</AssociationType>
+        <StartMultiplicity>0..*</StartMultiplicity>
+        <EndMultiplicity>1</EndMultiplicity>
+      </Relationship>
+      <Relationship type="Association" first="2" second="4">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>1440</X>
+          <Y>1200</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>1923</X>
+          <Y>1200</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+        <StartMultiplicity>1</StartMultiplicity>
+        <EndMultiplicity>0..*</EndMultiplicity>
+      </Relationship>
+      <Relationship type="Association" first="6" second="5">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="False">
+          <X>1195</X>
+          <Y>487</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Composition</AssociationType>
+        <StartMultiplicity>0..*</StartMultiplicity>
+        <EndMultiplicity>1</EndMultiplicity>
+      </Relationship>
+      <Relationship type="Generalization" first="6" second="3">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>1361</X>
+          <Y>477</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>1722</X>
+          <Y>443</Y>
+        </BendPoint>
+      </Relationship>
+      <Relationship type="Association" first="6" second="1">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>1031</X>
+          <Y>891</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>981</X>
+          <Y>940</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Aggregation</AssociationType>
+        <StartMultiplicity>0..*</StartMultiplicity>
+        <EndMultiplicity>0..*</EndMultiplicity>
+      </Relationship>
+      <Relationship type="Association" first="0" second="6">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>884</X>
+          <Y>622</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>926</X>
+          <Y>622</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+        <StartMultiplicity>1</StartMultiplicity>
+        <EndMultiplicity>1..*</EndMultiplicity>
+      </Relationship>
+      <Relationship type="Association" first="6" second="4">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>1523</X>
+          <Y>876</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>1841</X>
+          <Y>1060</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+        <StartMultiplicity>0..*</StartMultiplicity>
+        <EndMultiplicity>0..*</EndMultiplicity>
+      </Relationship>
+      <Relationship type="Generalization" first="7" second="3">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>1874</X>
+          <Y>498</Y>
+        </BendPoint>
+      </Relationship>
+      <Relationship type="Association" first="7" second="4">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="False">
+          <X>2095</X>
+          <Y>977</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+        <StartMultiplicity>0..2</StartMultiplicity>
+        <EndMultiplicity>0..*</EndMultiplicity>
+      </Relationship>
+      <Relationship type="Association" first="1" second="8">
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>966</X>
+          <Y>974</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>1400</X>
+          <Y>1000</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+        <StartMultiplicity>5</StartMultiplicity>
+        <EndMultiplicity>0..*</EndMultiplicity>
+      </Relationship>
+      <Relationship type="Association" first="2" second="8">
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>1285</X>
+          <Y>1099</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+        <StartMultiplicity>5</StartMultiplicity>
+        <EndMultiplicity>0..*</EndMultiplicity>
+      </Relationship>
+    </Relationships>
+  </ProjectItem>
+</Project>

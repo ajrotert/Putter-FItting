@@ -1,0 +1,159 @@
+Thought the building process I had five people test it to see if they could get errors
+
+1)
+Found error in new account setup, that broke when bad dates were passed in
+Found titles were missing.
+Found that null options could be selected causes run time errors
+
+2)
+Found same errors in new account setup with incorrect dates
+Found that login would accept any two parameters next to each other in file (first name, last name; instead of username, password)
+
+3)
+Found errors in change password, would not save handicaps
+Found errors in switching users
+
+4)
+Found if the file is moved from the initial folder, lots of runtime errors (no solution for this yet)
+Also found error were admin can delete themself, causes runtime errors when they try to add themself back, without restarting program(no solution for this)
+
+5)
+Did not find any runtime errors, but suggested that the new person setup was hard to find.
+
+
+For my testing I tried to run through all the uses, and see if anything did not work. To start I loaded the application. From the main screen there are 4/5 branches.
+1) Change Password
+	From this screen there are two possible options:
+	1) Reset Password
+		This will continue to check for correct information until it is found. When found it load the main login screen again.
+	2) Home
+		This will load the main login screen again.
+
+2) Login as Guest
+	This will load the fitting screen with 3 options:
+	1) Change Password
+		This is locked to the guest, and when clicked a message box pops up saying "Cannot Change Password".
+	2) Home
+		This loads the main fitting screen for the guest again.
+	3) Next
+		This loads the next set of choices for the user until it completion. From this screen there are four new options, with the next option being removed.
+		1) Show details
+			Shows the details of a putter if one is selected, otherwise it does nothing.
+		2) My Details
+			Shows the details of what putter fits the user, and if a putter is selected, compares it to the selected putter showing a percent match.
+		3) Start Over
+			Loads the main fitting screen for the guest.
+		4) Sign Out
+			Loads the login screen, effectively signing out.
+
+3/4) Create new user, 
+	(There is a button for this, or any new username entered in. Two branches to the same screen.)
+	This loads a screen to add a new user. It has nine fields: username, password, handicap, first name, last name, birthdate, credit card number, ccv2 code, and expiration date. The username, birthdate, cc#, ccv2, and expiration date all have error handling to insure proper information is passed in. From this screen there is two additional options:
+	1) Back
+		Loads the main login screen.
+	2) Create
+		If no error to handle, a popup box shows successful payment, loads the main user screen.
+
+5) Login
+	Depending on login, there are two users, an admin, and anyone else
+	1) Anyone other than "admin":
+		This will load the main user screen. From here there are five options:
+		1) Change Password
+			From this screen there are two possible options:
+			1) Change Password
+				This will continue to check for correct information until it is found. When found it load the main user screen again.
+			2) Home
+				This will load the main user screen again. 
+		2) Home
+			Will load the main user screen.
+		3) Start Fitting
+			Will load the fitting screen. This will add one new option:
+			1) Next
+				This loads the next set of choices until it completion. From this screen there are four new options, with the "next" option being removed.
+				1) Show details
+					Shows the details of a putter if one is selected, otherwise it does nothing.
+				2) My Details
+					Shows the details of what putter fits the user, and if a putter is selected, compares it to the selected putter showing a percent match.
+				3) Start Over
+					Loads the main fitting screen for the user.
+				4) Sign Out
+					Loads the login screen, effectively signing out.
+		4) View Profile
+			This will have three new options:
+			1) Start Fitting
+				This loads the fitting screen from above.
+			2) Back
+				Loads the main user screen.
+			3) Change
+				Allows for selected data in the profile to be changed, text box allows for text to be changed. There are six possible changes:
+				1) Username
+					Can be changed to any non-existing username, If one exist error message is displayed to user.
+				2) Password
+					Cannot be changed here, message box displayed to user.
+				3) First Name
+					Can be changed to anything.
+				4) Last Name
+					Can be changed to anything.
+				5) Date of Birth
+					Can be changed to any valid date, Any incorrect date an error message is displayed to user. 
+				6) Handicap
+					If none is available one can be added, otherwise an existing one can be changed.
+		5) Sign Out
+			Loads the login screen, effectively signing out.
+	2) "admin"
+		This will load the main admin screen. From here there are five main options:
+		1) Change Password
+			From this screen there are two possible options:
+			1) Change Password
+				This will continue to check for correct information until it is found. When found it load the main admin screen again.
+			2) Home
+				This will load the main admin screen again. 
+		2) Home
+			This will load the main admin screen.
+		3) Manage Putters
+			This will load the putters screen. From here there are two options:
+			1) View Putters
+				Will search the putters text file based on three options, typed in text box:
+				1) No text is entered, loads entire file.
+				2) One / multiple lines of text are entered, loads matching lines from file, for each user line entered.
+				3) '+' is used to combine multiple parameters, loads matching lines from file.
+				When the search button is clicked it loads two new options:
+				1) Back
+					Loads the main putter screen.
+				2) Remove / Restart
+					Will remove any selected lines, and restarts to the search screen. If nothing is selected it just restarts to the search screen. 
+			2) Manage
+			This will accept text from the text box with two possible branches:
+			1) Add a putter
+				If the name is not found in file it will load the add setup, from here there are two additional options:
+				1) Add
+					A text box is available to add URL at any point. Will continue to loop through options until completion, were it loads main putters screen.
+				2) Back
+					Will load main putters screen, and reset any prior options. 
+			2) Remove a putter
+				If the name is found in file it will load the remove setup, from here there are three options:
+				1) Back
+					Will load the main putters screen, and reset any prior options.
+				2) Remove
+					Will remove putter, and load main putters screen.
+				3) Change
+					Will change six different categories, once one is clicked, it will load the options that it can be changed too.
+		4) Manage Users
+			This will load the users screen. From here there is one option
+			1) Search
+				Will search the users text file based on three options, typed in text box:
+				1) No text is entered, loads entire file.
+				2) One / multiple lines of text are entered, loads matching lines from file, for each user line entered.
+				3) '+' is used to combine multiple parameters, loads matching lines from file.
+				When the search button is clicked it loads one new option:
+				1) Remove / Restart
+					Will remove any selected lines, and restarts to the search screen. If nothing is selected it just restarts to the search screen. 
+		5) Sign Out
+			Loads the login screen, effectively signing out.
+
+Going through all the possible options I found the following logic errors:
+5-1-4-3-1 found error in accepting already existing username (fixed)
+3/4 and 5 found error in wrong label for username text box (fixed)
+5-2-3-1-2 found error were user can enter in multiple blank lines of text and program crashes (fixed)
+All the above have been fixed, and I am confident in saying that all intended uses of the program will not causes errors. 
+The only two errors that I am aware of that haven't been fixed are the two that my friend found (4). While I would prefer to have no errors, both of them are not common, and shouldn't ever arise in standard uses of the program. 
