@@ -155,5 +155,6 @@ Going through all the possible options I found the following logic errors:
 5-1-4-3-1 found error in accepting already existing username (fixed)
 3/4 and 5 found error in wrong label for username text box (fixed)
 5-2-3-1-2 found error were user can enter in multiple blank lines of text and program crashes (fixed)
+5-2-4-1-2 found error were user can enter in multiple blank lines, similar to above, but instead of crashing it output blank lines (fixed)
 All the above have been fixed, and I am confident in saying that all intended uses of the program will not causes errors. 
 The only two errors that I am aware of that haven't been fixed are the two that my friend found (4). While I would prefer to have no errors, both of them are not common, and shouldn't ever arise in standard uses of the program. 

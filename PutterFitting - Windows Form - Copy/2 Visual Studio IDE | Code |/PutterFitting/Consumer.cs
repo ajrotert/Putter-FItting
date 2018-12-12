@@ -146,7 +146,8 @@ namespace PutterFitting
         /// <returns></returns>
         public bool changeUserInformation(string username, string password, string fname, string lname, string birthdate, string handicap = null)
         {
-            if (!save.verify(username))
+            bool check = username == this.username;
+            if (check || !save.verify(username))
             {
                 bool removed = UserSave.remove(this.username);
                 this.username = username;

@@ -87,6 +87,7 @@
             this.Controls.Add(this.PutterTitle);
             this.Cursor = System.Windows.Forms.Cursors.Cross;
             this.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.Name = "PutterFittingSoftware";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

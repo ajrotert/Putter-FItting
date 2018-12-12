@@ -32,6 +32,8 @@ namespace PutterFitting
             }
             File.Create(fileName);
             MessageBox.Show(fileName + " created.");
+            MessageBox.Show("Reload Application");//added 10/12
+            Application.Exit();
             return false;
         }
 
@@ -64,6 +66,8 @@ namespace PutterFitting
             }
             File.Create(fileName);
             MessageBox.Show(fileName + " created.");
+            MessageBox.Show("Reload Application"); //Added 10/12
+            Application.Exit();
             return false;
         }
 
@@ -91,6 +95,9 @@ namespace PutterFitting
             }
             File.Create(fileName);
             MessageBox.Show(fileName + " created.");
+            //This could also be were to add admin into file
+            MessageBox.Show("Reload Application"); //Added 10/12
+            Application.Exit();
             return false;
         }
 
@@ -157,6 +164,8 @@ namespace PutterFitting
             }
             File.Create(fileName);
             MessageBox.Show(fileName + " created.");
+            MessageBox.Show("Reload Application"); //Added 10/12
+            Application.Exit();
             return null;
         }
 

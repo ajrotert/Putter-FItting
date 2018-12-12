@@ -127,9 +127,13 @@ namespace PutterFitting
                 if (data[i].Contains('\r'))
                 {
                     if (data[i].Length == 1)
-                        data[i] = " ";
+                        data[i] = '\u00BB'.ToString();
                     else
-                        data[i] = data[i].Remove('\r');
+                    {
+                        MessageBox.Show("+" + data[i] + "+");
+                        data[i] = data[i].TrimEnd('\r');
+                        MessageBox.Show("+" + data[i] + "+");
+                    }
                 }
 
                 if (data[i] == "")
@@ -138,13 +142,13 @@ namespace PutterFitting
                 }
                 else
                 {
-                    //if (data[i][data[i].Length - 1] == '\r')
-                      //  data[i] = data[i].Remove(data[i].Length - 1);
 
                     if (data[i].Contains(" + "))
                         tempData = data[i].Split('+', ' ').ToList();
-                    else
+                    else if (data[i].Contains("+"))
                         tempData = data[i].Split('+').ToList();
+                    else
+                        tempData.Add(data[i]);
 
                     for (int a = 0; a < tempData.Count; a++)
                         if (tempData[a] == "" || tempData[a] == null || tempData[a] == '\r'.ToString())
@@ -156,8 +160,9 @@ namespace PutterFitting
                         matching[a] = matching[a].Replace('\u00BB', '|');
                         combined.Add(matching[a]);
                 }
-                if (matching.Length == 1 && (!matching[0].Contains(data[i]) && !matching[0].Contains(tempData[0])))//could use the verify function, but that will not be as efficient
-                    combined[i] = " ";
+                if (matching.Length == 1 && (!matching[0].Contains(tempData[0])))//could use the verify function, but that will not be as efficient !matching[0].Contains(data[i]) && 
+                    combined[combined.Count-1] = "No results found.";
+                tempData.Clear();
             }
             
             return combined.ToArray();

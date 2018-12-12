@@ -124,7 +124,7 @@ namespace PutterFitting//added admin function, start, postlogin
                     results = admin1.viewData(); //displays entire file
                 else
                     results = admin1.viewData(search); //displays specified text
-                if (results.Length == 1 && results[0] == " ")
+                if (results.Length == 1 && results[0] == "No results found.")
                     OutBox.Text += "\t\t\tResults: " + "0";
                 else
                     OutBox.Text += "\t\t\tResults: " + results.Length;
