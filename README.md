@@ -1,10 +1,10 @@
 # Project
 Copyright © 2020 Andrew Rotert. All rights reserved.
-## Putter Fitter
+#### Putter Fitter
 Windows Form Application designed to allow users to input characteristics about their putting. The application then makes a prediction on what putter(s) would work best for the user. 
 
-[ ] Published
-[x] Completed
+- [ ] Published
+- [x] Completed
 
 
 # Motivation
